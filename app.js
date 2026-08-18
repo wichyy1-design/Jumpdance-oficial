@@ -574,6 +574,29 @@ async function publishPost(e){
  const {error}=await sb.from('posts').insert({title:f.get('title'),body:f.get('body'),image_path,published:true});
  if(error)return toast('No se pudo publicar');toast('Publicación creada');render();
 }
+async function addSponsorMinimal(e){
+  e.preventDefault();
+  const f=new FormData(e.target);
+  const name=f.get('sponsor_name')?.trim();
+  const image=f.get('sponsor_image')?.trim();
+
+  if(!name)return toast('Ingresá el nombre del sponsor');
+
+  const {error}=await sb.from('posts').insert({
+    title:'__JUMPDANCE_SPONSOR__',
+    body:JSON.stringify({name,image}),
+    published:true
+  });
+
+  if(error){
+    console.error(error);
+    return toast('No se pudo publicar el sponsor');
+  }
+
+  toast('Sponsor publicado');
+  e.target.reset();
+  render();
+}
 async function deleteMessage(id){
  if(!confirm('¿Eliminar este mensaje público?'))return;
  const {error}=await sb.from('public_messages').delete().eq('id',id);if(error)return toast('No se pudo eliminar');toast('Mensaje eliminado');render();
