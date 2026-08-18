@@ -576,14 +576,42 @@ async function publishPost(e){
 }
 async function addSponsorMinimal(e){
   e.preventDefault();
+
   const f=new FormData(e.target);
-  const name=f.get('sponsor_name')?.trim();
-  const image=f.get('sponsor_image')?.trim();
+  const name=String(f.get('sponsor_name')||'').trim();
+  const file=f.get('sponsor_image');
 
   if(!name)return toast('Ingresá el nombre del sponsor');
+  if(!file || !file.size)return toast('Elegí una imagen o logo');
+
+  if(!file.type.startsWith('image/')){
+    return toast('El archivo debe ser una imagen');
+  }
+
+  if(file.size>12*1024*1024){
+    return toast('La imagen es demasiado grande');
+  }
+
+  const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+  const path=`sponsors/${Date.now()}_${safeName}`;
+
+  const {error:uploadError}=await sb.storage
+    .from('Photos')
+    .upload(path,file);
+
+  if(uploadError){
+    console.error(uploadError);
+    return toast('No se pudo subir la imagen');
+  }
+
+  const {data:publicData}=sb.storage
+    .from('Photos')
+    .getPublicUrl(path);
+
+  const image=publicData.publicUrl;
 
   const {error}=await sb.from('posts').insert({
-    title:'__JUMPDANCE_SPONSOR__',
+    title:SPONSOR_TITLE,
     body:JSON.stringify({name,image}),
     published:true
   });
@@ -646,7 +674,7 @@ async function adminPanel(){
   <div class="sectionTitle"><h2>⭐ Sponsors</h2></div>
   <form id="sponsorFormMinimal" class="card form">
     <div class="field"><label>Nombre del sponsor *</label><input name="sponsor_name" required></div>
-    <div class="field"><label>URL de la imagen o logo</label><input name="sponsor_image" placeholder="https://..."></div>
+    <div class="field"><label>Logo / imagen del sponsor</label><input id="sponsorImageFile" name="sponsor_image" type="file" accept="image/*"></div>
     <button class="btn">PUBLICAR SPONSOR</button>
   </form>
   <div class="sectionTitle"><h3>Sponsors cargados</h3></div>
