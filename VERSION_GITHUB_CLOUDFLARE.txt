@@ -1,0 +1,3 @@
+JUMPDANCE OFICIAL - VERSION 22 GITHUB/CLOUDFLARE
+Esta es la version que vamos a usar para GitHub + Cloudflare.
+IMPORTANTE: extraer el ZIP y subir a GitHub los archivos y carpetas extraidos, NO subir el ZIP como unico archivo.

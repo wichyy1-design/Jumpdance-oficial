@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090011">
+<meta name="description" content="Aplicación oficial de Jumpdance 2026: inscripciones, novedades, fotos, videos y resultados.">
+<meta name="application-name" content="Jumpdance 2026">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Jumpdance">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<title>Jumpdance 2026</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <button id="menuBtn" class="iconBtn">☰</button>
+  <div class="brand">JUMPDANCE <span>2026</span></div>
+  <button class="iconBtn" onclick="route('news')">🔔</button>
+</header>
+
+<main id="app"></main>
+
+<nav class="bottomNav">
+  <button data-route="home" onclick="route('home')">🏠<small>Inicio</small></button>
+  <button data-route="register" onclick="route('register')">📅<small>Evento</small></button>
+  <button data-route="results" onclick="route('results')">👑<small>Jumpdance</small></button>
+  <button data-route="messages" onclick="route('messages')">✉️<small>Contacto</small></button>
+  <button data-route="admin" onclick="route('admin')">👤<small>Mi cuenta</small></button>
+</nav>
+
+<div id="drawer" class="drawer hidden">
+  <div class="drawerPanel">
+    <button class="close" onclick="closeDrawer()">×</button>
+    <h2>JUMPDANCE <span>2026</span></h2>
+    <button onclick="route('home');closeDrawer()">🏠 Inicio</button>
+    <button onclick="route('register');closeDrawer()">📝 Inscripciones</button>
+    <button onclick="route('photos');closeDrawer()">📸 Fotos</button>
+    <button onclick="route('videos');closeDrawer()">🎬 Videos</button>
+    <button onclick="route('news');closeDrawer()">📢 Novedades</button>
+    <button onclick="route('results');closeDrawer()">🏆 Resultados</button>
+    <button onclick="route('sponsors');closeDrawer()">⭐ Sponsors</button>
+    <button onclick="route('messages');closeDrawer()">💬 Mensajes públicos</button>
+    <button onclick="route('admin');closeDrawer()">🔐 Administrador</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js').catch(console.error);
+  });
+}
+</script>
+
+</body>
+</html>
