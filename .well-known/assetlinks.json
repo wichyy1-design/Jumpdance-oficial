@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "dev.workers.wichyy_1.jumpdance_app_oficial.twa",
+        "sha256_cert_fingerprints": ["AA:F5:31:72:C2:FD:3A:FA:AA:67:7D:1D:2A:20:5C:37:4D:D1:17:E7:67:75:1B:BF:67:8E:D8:9D:9B:08:5E:A9"]
+      }
+    }]
