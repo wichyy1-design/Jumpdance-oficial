@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v22-github-cloudflare';
+const CACHE_NAME='jumpdance-v23-novedades-admin';
 const APP_SHELL=[
   '/',
   '/index.html',

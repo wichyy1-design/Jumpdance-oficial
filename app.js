@@ -308,6 +308,100 @@ function showResultYear(year,btn){
   if(btn)btn.classList.remove('secondary');
 }
 
+
+const NEWS_TITLE='__JUMPDANCE_NEWS__';
+
+async function addNewsAdmin(e){
+  e.preventDefault();
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session || session.user.id!==cfg.adminUserId)return toast('Solo el administrador puede publicar novedades');
+
+  const f=new FormData(e.target);
+  const title=String(f.get('news_title')||'').trim();
+  const body=String(f.get('news_body')||'').trim();
+  if(!title||!body)return toast('Completá título y contenido');
+
+  const {error}=await sb.from('posts').insert({
+    title:NEWS_TITLE,
+    body:JSON.stringify({title,body}),
+    image_path:null,
+    published:true
+  });
+  if(error){console.error(error);return toast('No se pudo publicar la novedad')}
+
+  toast('Novedad publicada');
+  e.target.reset();
+  await renderAdminNews();
+}
+
+async function deleteNewsAdmin(id){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session || session.user.id!==cfg.adminUserId)return toast('Solo el administrador puede eliminar novedades');
+  if(!confirm('¿Eliminar esta novedad?'))return;
+
+  const {error}=await sb.from('posts').delete().eq('id',id).eq('title',NEWS_TITLE);
+  if(error){console.error(error);return toast('No se pudo eliminar')}
+  toast('Novedad eliminada');
+  await renderAdminNews();
+}
+
+async function editNewsAdmin(id){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session || session.user.id!==cfg.adminUserId)return toast('Solo el administrador puede editar novedades');
+
+  const {data,error}=await sb.from('posts').select('id,body').eq('id',id).eq('title',NEWS_TITLE).single();
+  if(error||!data)return toast('No se pudo cargar la novedad');
+
+  let o={title:'',body:''};
+  try{o={...o,...JSON.parse(data.body||'{}')}}catch{}
+
+  const title=prompt('Título',o.title||''); if(title===null)return;
+  const body=prompt('Contenido',o.body||''); if(body===null)return;
+
+  const {error:upErr}=await sb.from('posts')
+    .update({body:JSON.stringify({title,body})})
+    .eq('id',id)
+    .eq('title',NEWS_TITLE);
+
+  if(upErr){console.error(upErr);return toast('No se pudo editar')}
+  toast('Novedad actualizada');
+  await renderAdminNews();
+}
+
+async function renderAdminNews(){
+  const el=document.getElementById('adminNewsList');
+  if(!el)return;
+
+  const {data,error}=await sb.from('posts')
+    .select('id,body,created_at')
+    .eq('title',NEWS_TITLE)
+    .order('created_at',{ascending:false});
+
+  if(error){
+    console.error(error);
+    el.innerHTML='<div class="card muted">No se pudieron cargar las novedades.</div>';
+    return;
+  }
+
+  if(!data?.length){
+    el.innerHTML='<div class="card muted">Todavía no hay novedades cargadas.</div>';
+    return;
+  }
+
+  el.innerHTML=data.map(n=>{
+    let o={title:'Novedad',body:''};
+    try{o={...o,...JSON.parse(n.body||'{}')}}catch{}
+    return `<div class="card">
+      <h3>${esc(o.title)}</h3>
+      <p>${esc(o.body)}</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn secondary" onclick="editNewsAdmin('${esc(n.id)}')">✏️ EDITAR</button>
+        <button class="btn danger" onclick="deleteNewsAdmin('${esc(n.id)}')">🗑️ ELIMINAR</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
 async function home(){
   const eventSettings=await getEventSettings();
   const coverUrl=eventSettings.cover_image
@@ -378,16 +472,24 @@ async function photos(){return `<div class="sectionTitle"><h2>📸 Fotos</h2></d
 async function videos(){return `<div class="sectionTitle"><h2>🎬 Videos</h2></div><div class="mediaGrid">${await loadPublicBucket('Videos','video')}</div>`}
 
 async function news(){
- const {data,error}=await sb.from('posts').select('*').eq('published',true).order('created_at',{ascending:false});
- let h=`<div class="sectionTitle"><h2>📢 Novedades</h2></div><div class="list">`;
- if(error||!data?.length)return h+`<div class="card muted">Todavía no hay publicaciones.</div></div>`;
- for(const p of data){
-  if(p.title===EVENT_SETTINGS_TITLE || p.title===SPONSOR_TITLE || p.title===RESULT_TITLE)continue;
-  let img='';
-  if(p.image_path){img=`<img src="${esc(sb.storage.from('Photos').getPublicUrl(p.image_path).data.publicUrl)}" alt="">`}
-  h+=`<article class="card postCard"><h3>${esc(p.title)}</h3><p>${esc(p.body)}</p>${img}</article>`;
- }
- return h+`</div>`;
+  const {data,error}=await sb.from('posts')
+    .select('body,created_at')
+    .eq('title',NEWS_TITLE)
+    .eq('published',true)
+    .order('created_at',{ascending:false});
+
+  let h=`<div class="sectionTitle"><h2>📣 Novedades</h2></div>`;
+
+  if(error||!data?.length){
+    return h+`<div class="card muted">Todavía no hay novedades publicadas.</div>`;
+  }
+
+  for(const n of data){
+    let o={title:'Novedad',body:''};
+    try{o={...o,...JSON.parse(n.body||'{}')}}catch{}
+    h+=`<div class="card"><h3>${esc(o.title)}</h3><p>${esc(o.body)}</p></div>`;
+  }
+  return h;
 }
 
 async function sponsors(){
@@ -482,7 +584,7 @@ async function adminPanel(){
  if(error)return `<div class="card">Error al leer inscripciones.</div>`;
  const {data:msgs}=await sb.from('public_messages').select('*').order('created_at',{ascending:false}).limit(100);
  let h=`<div class="adminbar"><div><h2>⚙️ Panel administrador</h2><p class="muted">Inscripciones, fotos, videos, publicaciones y mensajes</p></div><button class="btn secondary" onclick="logout()">Cerrar sesión</button></div>
- <div class="adminTabs"><button class="btn secondary" onclick="document.getElementById('aEvent').scrollIntoView()">Portada</button><button class="btn secondary" onclick="document.getElementById('aIns').scrollIntoView()">Inscripciones</button><button class="btn secondary" onclick="document.getElementById('aMedia').scrollIntoView()">Multimedia</button><button class="btn secondary" onclick="document.getElementById('aSponsors').scrollIntoView()">Sponsors</button><button class="btn secondary" onclick="document.getElementById('aResults').scrollIntoView()">Resultados</button><button class="btn secondary" onclick="document.getElementById('aPosts').scrollIntoView()">Publicaciones</button><button class="btn secondary" onclick="document.getElementById('aMsgs').scrollIntoView()">Mensajes</button></div>
+ <div class="adminTabs"><button class="btn secondary" onclick="document.getElementById('aEvent').scrollIntoView()">Portada</button><button class="btn secondary" onclick="document.getElementById('aIns').scrollIntoView()">Inscripciones</button><button class="btn secondary" onclick="document.getElementById('aMedia').scrollIntoView()">Multimedia</button><button class="btn secondary" onclick="document.getElementById('aSponsors').scrollIntoView()">Sponsors</button><button class="btn secondary" onclick="document.getElementById('aResults').scrollIntoView()">Resultados</button><button class="btn secondary" onclick="document.getElementById('aNews').scrollIntoView()">Novedades</button><button class="btn secondary" onclick="document.getElementById('aPosts').scrollIntoView()">Publicaciones</button><button class="btn secondary" onclick="document.getElementById('aMsgs').scrollIntoView()">Mensajes</button></div>
  <section id="aEvent">
  <div class="sectionTitle"><h2>🖼️ Datos de la portada</h2></div>
  <form id="eventSettingsForm" class="card form">
@@ -558,6 +660,17 @@ async function adminPanel(){
   <div class="sectionTitle"><h3>Resultados cargados</h3></div>
   <div id="adminResultsMultiYear" class="list"><div class="card muted">Cargando resultados...</div></div>
  </section>
+
+ <section id="aNews">
+  <div class="sectionTitle"><h2>📣 Novedades</h2></div>
+  <form id="newsForm" class="card form">
+    <div class="field"><label>Título *</label><input name="news_title" required placeholder="Ej.: Inscripciones abiertas"></div>
+    <div class="field"><label>Contenido *</label><textarea name="news_body" rows="5" required placeholder="Escribí la novedad..."></textarea></div>
+    <button class="btn">PUBLICAR NOVEDAD</button>
+  </form>
+  <div class="sectionTitle"><h3>Novedades cargadas</h3></div>
+  <div id="adminNewsList" class="list"><div class="card muted">Cargando novedades...</div></div>
+ </section>
  <section id="aPosts"><div class="sectionTitle"><h2>📢 Nueva publicación</h2></div><form id="postForm" class="card form"><div class="field"><label>Título</label><input name="title" required></div><div class="field"><label>Texto</label><textarea name="body" required></textarea></div><div class="field"><label>Imagen opcional</label><input id="postImage" type="file" accept="image/*"></div><button class="btn">PUBLICAR</button></form></section>
  <section id="aMsgs"><div class="sectionTitle"><h2>💬 Mensajes públicos</h2></div><div class="list">`;
  for(const m of msgs||[])h+=`<div class="messageCard"><b>${esc(m.display_name)}</b><p>${esc(m.message)}</p><button class="btn danger" onclick="deleteMessage('${esc(m.id)}')">Eliminar mensaje</button></div>`;
@@ -578,6 +691,8 @@ async function render(){
  if(r==='admin'){
   if(document.getElementById('loginForm'))document.getElementById('loginForm').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);const {data,error}=await sb.auth.signInWithPassword({email:f.get('email'),password:f.get('password')});if(error)return toast('Email o contraseña incorrectos');if(data.user.id!==cfg.adminUserId){await sb.auth.signOut();return toast('Cuenta no autorizada')}render()};
   if(document.getElementById('postForm'))document.getElementById('postForm').onsubmit=publishPost;
+  if(document.getElementById('newsForm'))document.getElementById('newsForm').onsubmit=addNewsAdmin;
+  if(document.getElementById('adminNewsList'))renderAdminNews();
   if(document.getElementById('resultMultiYearForm'))document.getElementById('resultMultiYearForm').onsubmit=addResultMultiYear;
   if(document.getElementById('adminResultsMultiYear'))renderAdminResultsMultiYear();
   if(document.getElementById('sponsorFormMinimal'))document.getElementById('sponsorFormMinimal').onsubmit=addSponsorMinimal;
