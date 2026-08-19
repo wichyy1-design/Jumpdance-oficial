@@ -153,7 +153,10 @@ async function getAllResults(){
   if(error){console.error(error);return []}
   return (data||[]).map(r=>({id:r.id,...parseResult(r.body)}));
 }
-
+function resultPositionNumber(value){
+  const n=parseInt(String(value||'').replace(/\D/g,''),10);
+  return Number.isFinite(n)?n:999999;
+}
 async function addResultMultiYear(e){
   e.preventDefault();
   const f=new FormData(e.target);
@@ -212,7 +215,58 @@ async function editResultMultiYear(id){
   toast('Resultado actualizado');
   await renderAdminResultsMultiYear();
 }
+async function moveResultMultiYear(id,direction){
+  const rows=await getAllResults();
+  const current=rows.find(r=>String(r.id)===String(id));
+  if(!current)return toast('No se encontró el resultado');
 
+  const list=rows
+    .filter(r=>r.year===current.year)
+    .sort((a,b)=>resultPositionNumber(a.position)-resultPositionNumber(b.position));
+
+  const index=list.findIndex(r=>String(r.id)===String(id));
+  const other=list[index+direction];
+
+  if(!other){
+    return toast(direction<0?'Ya está primero':'Ya está último');
+  }
+
+  const currentPosition=current.position;
+  const otherPosition=other.position;
+
+  const bodyCurrent={
+    year:current.year,
+    position:otherPosition,
+    participant:current.participant,
+    academy:current.academy,
+    category:current.category,
+    discipline:current.discipline,
+    note:current.note
+  };
+
+  const bodyOther={
+    year:other.year,
+    position:currentPosition,
+    participant:other.participant,
+    academy:other.academy,
+    category:other.category,
+    discipline:other.discipline,
+    note:other.note
+  };
+
+  const [a,b]=await Promise.all([
+    sb.from('posts').update({body:JSON.stringify(bodyCurrent)}).eq('id',current.id),
+    sb.from('posts').update({body:JSON.stringify(bodyOther)}).eq('id',other.id)
+  ]);
+
+  if(a.error || b.error){
+    console.error(a.error||b.error);
+    return toast('No se pudo cambiar el orden');
+  }
+
+  toast('Orden actualizado');
+  await renderAdminResultsMultiYear();
+}
 async function renderAdminResultsMultiYear(){
   const el=document.getElementById('adminResultsMultiYear');
   if(!el)return;
@@ -229,7 +283,7 @@ async function renderAdminResultsMultiYear(){
     if(!grouped[year])grouped[year]=[];
     grouped[year].push(r);
   });
-
+Object.values(grouped).forEach(list=>list.sort((a,b)=>resultPositionNumber(a.position)-resultPositionNumber(b.position)));
   const years=Object.keys(grouped).sort((a,b)=>(Number(b)||0)-(Number(a)||0));
   let h='';
 
@@ -245,8 +299,10 @@ async function renderAdminResultsMultiYear(){
         ${r.category||r.discipline?`<div class="muted">${esc([r.category,r.discipline].filter(Boolean).join(' · '))}</div>`:''}
         ${r.note?`<div class="muted">${esc(r.note)}</div>`:''}
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-          <button class="btn secondary" onclick="editResultMultiYear('${esc(r.id)}')">✏️ EDITAR</button>
-          <button class="btn danger" onclick="deleteResultMultiYear('${esc(r.id)}')">🗑️ ELIMINAR</button>
+       <button class="btn secondary" onclick="editResultMultiYear('${esc(r.id)}')">✏️ EDITAR</button>   
+         <button class="btn secondary" onclick="moveResultMultiYear('${esc(r.id)},-1)">⬆️ SUBIR</button>
+<button class="btn secondary" onclick="moveResultMultiYear('${esc(r.id)}',1)">⬇️ BAJAR</button>
+<button class="btn danger" onclick="deleteResultMultiYear('${esc(r.id)}')">🗑️ ELIMINAR</button>       
         </div>
       </div>`;
     });
@@ -271,7 +327,7 @@ async function results(){
     if(!grouped[year])grouped[year]=[];
     grouped[year].push(r);
   });
-
+Object.values(grouped).forEach(list=>list.sort((a,b)=>resultPositionNumber(a.position)-resultPositionNumber(b.position)));
   const years=Object.keys(grouped).sort((a,b)=>(Number(b)||0)-(Number(a)||0));
 
   h+=`<div class="resultYearTabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">`;
