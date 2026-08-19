@@ -137,7 +137,8 @@ function parseResult(body){
       academy:String(o.academy||'').trim(),
       category:String(o.category||'').trim(),
       discipline:String(o.discipline||'').trim(),
-      note:String(o.note||'').trim()
+      note:String(o.note||'').trim(),
+      order:Number(o.order||0)
     };
   }catch{
     return {year:'',position:'',participant:'',academy:'',category:'',discipline:'',note:''};
@@ -209,13 +210,13 @@ async function editResultMultiYear(id){
   const discipline=prompt('Disciplina',o.discipline); if(discipline===null)return;
   const note=prompt('Observación',o.note); if(note===null)return;
 
-  const payload={year,position,participant,academy,category,discipline,note};
+  const payload={year,position,participant,academy,category,discipline,note,order:o.order};
   const {error:upErr}=await sb.from('posts').update({body:JSON.stringify(payload)}).eq('id',id).eq('title',RESULT_TITLE);
   if(upErr){console.error(upErr);return toast('No se pudo editar')}
   toast('Resultado actualizado');
   await renderAdminResultsMultiYear();
 }
-async function moveResultMultiYear(id,direction){
+async function moveResultMultiYearOld(id,direction){
   const rows=await getAllResults();
   const current=rows.find(r=>String(r.id)===String(id));
   if(!current)return toast('No se encontró el resultado');
@@ -267,6 +268,98 @@ async function moveResultMultiYear(id,direction){
   toast('Orden actualizado');
   await renderAdminResultsMultiYear();
 }
+async function moveResultMultiYearBroken(id,direction){
+  const rows=await getAllResults();
+  const current=rows.find(r=>String(r.id)===String(id));
+  if(!current)return toast('No se encontró el resultado');
+
+  const list=rows.filter(r=>r.year===current.year);
+  const index=list.findIndex(r=>String(r.id)===String(id));
+  const other=list[index+direction];
+
+  if(!other){
+    return toast(direction<0?'Ya está primero':'Ya está último');
+  }
+
+  const bodyCurrent={
+    year:other.year,
+    position:other.position,
+    participant:other.participant,
+    academy:other.academy,
+    category:other.category,
+    discipline:other.discipline,
+    note:other.note
+  };
+
+  const bodyOther={
+    year:current.year,
+    position:current.position,
+    participant:current.participant,
+    academy:current.academy,
+    category:current.category,
+    discipline:current.discipline,
+    note:current.note
+  };
+
+  const [a,b]=await Promise.all([
+    sb.from('posts').update({body:JSON.stringify(bodyCurrent)}).eq('id',current.id),
+    sb.from('posts').update({body:JSON.stringify(bodyOther)}).eq('id',other.id)
+  ]);
+
+  if(a.error || b.error){
+    console.error(a.error||b.error);
+    return toast('No se pudo cambiar el orden');
+  }
+
+  toast('Orden actualizado');
+  await renderAdminResultsMultiYear();
+}
+async function moveResultMultiYear(id,direction){
+  const rows=await getAllResults();
+  const current=rows.find(r=>String(r.id)===String(id));
+  if(!current)return toast('No se encontró el resultado');
+
+  const list=rows
+    .filter(r=>r.year===current.year)
+    .sort((a,b)=>(a.order||999999)-(b.order||999999));
+
+  const index=list.findIndex(r=>String(r.id)===String(id));
+  const target=index+direction;
+
+  if(target<0 || target>=list.length){
+    return toast(direction<0?'Ya está primero':'Ya está último');
+  }
+
+  [list[index],list[target]]=[list[target],list[index]];
+
+  const responses=await Promise.all(
+    list.map((r,i)=>{
+      const body={
+        year:r.year,
+        position:r.position,
+        participant:r.participant,
+        academy:r.academy,
+        category:r.category,
+        discipline:r.discipline,
+        note:r.note,
+        order:i+1
+      };
+
+      return sb.from('posts')
+        .update({body:JSON.stringify(body)})
+        .eq('id',r.id);
+    })
+  );
+
+  const failed=responses.find(r=>r.error);
+  if(failed){
+    console.error(failed.error);
+    return toast('No se pudo cambiar el orden');
+  }
+
+  toast('Orden actualizado');
+  await renderAdminResultsMultiYear();
+}
 async function renderAdminResultsMultiYear(){
   const el=document.getElementById('adminResultsMultiYear');
   if(!el)return;
@@ -283,7 +376,7 @@ async function renderAdminResultsMultiYear(){
     if(!grouped[year])grouped[year]=[];
     grouped[year].push(r);
   });
-Object.values(grouped).forEach(list=>list.sort((a,b)=>resultPositionNumber(a.position)-resultPositionNumber(b.position)));
+Object.values(grouped).forEach(list=>list.sort((a,b)=>(a.order||999999)-(b.order||999999)));
   const years=Object.keys(grouped).sort((a,b)=>(Number(b)||0)-(Number(a)||0));
   let h='';
 
@@ -327,7 +420,7 @@ async function results(){
     if(!grouped[year])grouped[year]=[];
     grouped[year].push(r);
   });
-Object.values(grouped).forEach(list=>list.sort((a,b)=>resultPositionNumber(a.position)-resultPositionNumber(b.position)));
+Object.values(grouped).forEach(list=>list.sort((a,b)=>(a.order||999999)-(b.order||999999)));
   const years=Object.keys(grouped).sort((a,b)=>(Number(b)||0)-(Number(a)||0));
 
   h+=`<div class="resultYearTabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">`;
