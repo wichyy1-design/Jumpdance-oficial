@@ -1,3 +1,3 @@
-JUMPDANCE OFICIAL - VERSION 22 GITHUB/CLOUDFLARE
-Esta es la version que vamos a usar para GitHub + Cloudflare.
-IMPORTANTE: extraer el ZIP y subir a GitHub los archivos y carpetas extraidos, NO subir el ZIP como unico archivo.
+JUMPDANCE OFICIAL - VERSION 24 ESTILO NOVA
+Cambio: rediseño visual completo tipo dashboard Nova, sin modificar la lógica de datos.
+Incluye: nueva barra superior, navegación, inicio, tarjetas, formularios, panel admin y caché v24.

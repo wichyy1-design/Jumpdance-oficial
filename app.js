@@ -9,7 +9,7 @@ function closeDrawer(){document.getElementById('drawer').classList.add('hidden')
 document.getElementById('menuBtn').onclick=()=>document.getElementById('drawer').classList.remove('hidden');
 window.addEventListener('hashchange',render);
 
-function qcard(cls,ico,title,desc,r){return `<button class="quickCard ${cls}" onclick="route('${r}')"><span class="ico">${ico}</span><h3>${title}</h3><p>${desc}</p></button>`}
+function qcard(cls,ico,title,desc,r){return `<button class="quickCard ${cls}" onclick="route('${r}')"><span class="ico">${ico}</span><h3>${title}</h3><p>${desc}</p><span class="quickArrow">›</span></button>`}
 
 const EVENT_SETTINGS_TITLE='__JUMPDANCE_EVENT_SETTINGS__';
 const DEFAULT_EVENT_SETTINGS={
@@ -137,8 +137,7 @@ function parseResult(body){
       academy:String(o.academy||'').trim(),
       category:String(o.category||'').trim(),
       discipline:String(o.discipline||'').trim(),
-      note:String(o.note||'').trim(),
-      order:Number(o.order||0)
+      note:String(o.note||'').trim()
     };
   }catch{
     return {year:'',position:'',participant:'',academy:'',category:'',discipline:'',note:''};
@@ -154,10 +153,7 @@ async function getAllResults(){
   if(error){console.error(error);return []}
   return (data||[]).map(r=>({id:r.id,...parseResult(r.body)}));
 }
-function resultPositionNumber(value){
-  const n=parseInt(String(value||'').replace(/\D/g,''),10);
-  return Number.isFinite(n)?n:999999;
-}
+
 async function addResultMultiYear(e){
   e.preventDefault();
   const f=new FormData(e.target);
@@ -210,156 +206,13 @@ async function editResultMultiYear(id){
   const discipline=prompt('Disciplina',o.discipline); if(discipline===null)return;
   const note=prompt('Observación',o.note); if(note===null)return;
 
-  const payload={year,position,participant,academy,category,discipline,note,order:o.order};
+  const payload={year,position,participant,academy,category,discipline,note};
   const {error:upErr}=await sb.from('posts').update({body:JSON.stringify(payload)}).eq('id',id).eq('title',RESULT_TITLE);
   if(upErr){console.error(upErr);return toast('No se pudo editar')}
   toast('Resultado actualizado');
   await renderAdminResultsMultiYear();
 }
-async function moveResultMultiYearOld(id,direction){
-  const rows=await getAllResults();
-  const current=rows.find(r=>String(r.id)===String(id));
-  if(!current)return toast('No se encontró el resultado');
 
-  const list=rows
-    .filter(r=>r.year===current.year)
-    .sort((a,b)=>resultPositionNumber(a.position)-resultPositionNumber(b.position));
-
-  const index=list.findIndex(r=>String(r.id)===String(id));
-  const other=list[index+direction];
-
-  if(!other){
-    return toast(direction<0?'Ya está primero':'Ya está último');
-  }
-
-  const currentPosition=current.position;
-  const otherPosition=other.position;
-
-  const bodyCurrent={
-    year:current.year,
-    position:otherPosition,
-    participant:current.participant,
-    academy:current.academy,
-    category:current.category,
-    discipline:current.discipline,
-    note:current.note
-  };
-
-  const bodyOther={
-    year:other.year,
-    position:currentPosition,
-    participant:other.participant,
-    academy:other.academy,
-    category:other.category,
-    discipline:other.discipline,
-    note:other.note
-  };
-
-  const [a,b]=await Promise.all([
-    sb.from('posts').update({body:JSON.stringify(bodyCurrent)}).eq('id',current.id),
-    sb.from('posts').update({body:JSON.stringify(bodyOther)}).eq('id',other.id)
-  ]);
-
-  if(a.error || b.error){
-    console.error(a.error||b.error);
-    return toast('No se pudo cambiar el orden');
-  }
-
-  toast('Orden actualizado');
-  await renderAdminResultsMultiYear();
-}
-async function moveResultMultiYearBroken(id,direction){
-  const rows=await getAllResults();
-  const current=rows.find(r=>String(r.id)===String(id));
-  if(!current)return toast('No se encontró el resultado');
-
-  const list=rows.filter(r=>r.year===current.year);
-  const index=list.findIndex(r=>String(r.id)===String(id));
-  const other=list[index+direction];
-
-  if(!other){
-    return toast(direction<0?'Ya está primero':'Ya está último');
-  }
-
-  const bodyCurrent={
-    year:other.year,
-    position:other.position,
-    participant:other.participant,
-    academy:other.academy,
-    category:other.category,
-    discipline:other.discipline,
-    note:other.note
-  };
-
-  const bodyOther={
-    year:current.year,
-    position:current.position,
-    participant:current.participant,
-    academy:current.academy,
-    category:current.category,
-    discipline:current.discipline,
-    note:current.note
-  };
-
-  const [a,b]=await Promise.all([
-    sb.from('posts').update({body:JSON.stringify(bodyCurrent)}).eq('id',current.id),
-    sb.from('posts').update({body:JSON.stringify(bodyOther)}).eq('id',other.id)
-  ]);
-
-  if(a.error || b.error){
-    console.error(a.error||b.error);
-    return toast('No se pudo cambiar el orden');
-  }
-
-  toast('Orden actualizado');
-  await renderAdminResultsMultiYear();
-}
-async function moveResultMultiYear(id,direction){
-  const rows=await getAllResults();
-  const current=rows.find(r=>String(r.id)===String(id));
-  if(!current)return toast('No se encontró el resultado');
-
-  const list=rows
-    .filter(r=>r.year===current.year)
-    .sort((a,b)=>(a.order||999999)-(b.order||999999));
-
-  const index=list.findIndex(r=>String(r.id)===String(id));
-  const target=index+direction;
-
-  if(target<0 || target>=list.length){
-    return toast(direction<0?'Ya está primero':'Ya está último');
-  }
-
-  [list[index],list[target]]=[list[target],list[index]];
-
-  const responses=await Promise.all(
-    list.map((r,i)=>{
-      const body={
-        year:r.year,
-        position:r.position,
-        participant:r.participant,
-        academy:r.academy,
-        category:r.category,
-        discipline:r.discipline,
-        note:r.note,
-        order:i+1
-      };
-
-      return sb.from('posts')
-        .update({body:JSON.stringify(body)})
-        .eq('id',r.id);
-    })
-  );
-
-  const failed=responses.find(r=>r.error);
-  if(failed){
-    console.error(failed.error);
-    return toast('No se pudo cambiar el orden');
-  }
-
-  toast('Orden actualizado');
-  await renderAdminResultsMultiYear();
-}
 async function renderAdminResultsMultiYear(){
   const el=document.getElementById('adminResultsMultiYear');
   if(!el)return;
@@ -376,7 +229,7 @@ async function renderAdminResultsMultiYear(){
     if(!grouped[year])grouped[year]=[];
     grouped[year].push(r);
   });
-Object.values(grouped).forEach(list=>list.sort((a,b)=>(a.order||999999)-(b.order||999999)));
+
   const years=Object.keys(grouped).sort((a,b)=>(Number(b)||0)-(Number(a)||0));
   let h='';
 
@@ -392,10 +245,8 @@ Object.values(grouped).forEach(list=>list.sort((a,b)=>(a.order||999999)-(b.order
         ${r.category||r.discipline?`<div class="muted">${esc([r.category,r.discipline].filter(Boolean).join(' · '))}</div>`:''}
         ${r.note?`<div class="muted">${esc(r.note)}</div>`:''}
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-       <button class="btn secondary" onclick="editResultMultiYear('${esc(r.id)}')">✏️ EDITAR</button>   
-         <button class="btn secondary" onclick="moveResultMultiYear('${esc(r.id)},-1)">⬆️ SUBIR</button>
-<button class="btn secondary" onclick="moveResultMultiYear('${esc(r.id)}',1)">⬇️ BAJAR</button>
-<button class="btn danger" onclick="deleteResultMultiYear('${esc(r.id)}')">🗑️ ELIMINAR</button>       
+          <button class="btn secondary" onclick="editResultMultiYear('${esc(r.id)}')">✏️ EDITAR</button>
+          <button class="btn danger" onclick="deleteResultMultiYear('${esc(r.id)}')">🗑️ ELIMINAR</button>
         </div>
       </div>`;
     });
@@ -420,7 +271,7 @@ async function results(){
     if(!grouped[year])grouped[year]=[];
     grouped[year].push(r);
   });
-Object.values(grouped).forEach(list=>list.sort((a,b)=>(a.order||999999)-(b.order||999999)));
+
   const years=Object.keys(grouped).sort((a,b)=>(Number(b)||0)-(Number(a)||0));
 
   h+=`<div class="resultYearTabs" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">`;
@@ -557,14 +408,30 @@ async function home(){
     ? sb.storage.from('Photos').getPublicUrl(eventSettings.cover_image).data.publicUrl
     : 'jumpdance-home-reference.png';
 
-  return `<section class="heroCard editableHero">
-    <img class="editableHeroImg" src="${esc(coverUrl)}" alt="Portada Jumpdance">
+  return `<section class="homeWelcome">
+    <div>
+      <span class="kicker">Jumpdance · Evento de exhibición</span>
+      <h1>Todo el evento en un solo lugar</h1>
+      <p>Inscripciones, contenidos, resultados y novedades con acceso rápido.</p>
+    </div>
+    <div class="homeMark">★</div>
+  </section>
+
+  <section class="heroCard editableHero">
+    <div class="heroMedia"><img class="editableHeroImg" src="${esc(coverUrl)}" alt="Portada Jumpdance"></div>
     <div class="editableHeroInfo">
-      <div class="infoPill">📅 ${esc(eventSettings.date)}</div>
-      <div class="infoPill">📍 ${esc(eventSettings.place)}</div>
-      <button class="cta" onclick="route('register')">INSCRIBIRME</button>
+      <div class="eventMeta">
+        <div class="infoPill">📅 <span>${esc(eventSettings.date)}</span></div>
+        <div class="infoPill">📍 <span>${esc(eventSettings.place)}</span></div>
+      </div>
+      <button class="cta" onclick="route('register')">INSCRIBIRME AL EVENTO</button>
     </div>
   </section>
+
+  <div class="sectionHeader">
+    <div><span class="kicker">Accesos rápidos</span><h2>Explorá Jumpdance</h2></div>
+    <span class="sectionBadge">8 secciones</span>
+  </div>
   <section class="quickGrid">
    ${qcard('pink','📝','INSCRIPCIONES','Formulario y carga privada de música','register')}
    ${qcard('purple','🎵','MÚSICAS','Solo visibles para administración','admin')}
@@ -575,11 +442,11 @@ async function home(){
    ${qcard('pink','🏆','RESULTADOS','Premiaciones y resultados','results')}
    ${qcard('gold','⭐','SPONSORS','Agradecemos a nuestros sponsors','sponsors')}
   </section>
-  <section class="winnerBanner"><div class="cup">🏆</div><div><strong>¿QUIÉN SERÁ EL GANADOR DE <span style="color:#ff43a8">JUMPDANCE</span> ESTE AÑO?</strong><div class="muted" style="margin-top:5px">Seguinos y enterate de todas las novedades.</div></div><div style="font-size:48px">💃</div></section>
+
+  <section class="winnerBanner"><div class="cup">🏆</div><div><strong>¿QUIÉN SERÁ EL GANADOR DE <span style="color:#ff4fa3">JUMPDANCE</span> ESTE AÑO?</strong><div class="muted" style="margin-top:5px">Seguinos y enterate de todas las novedades.</div></div><div class="dance">💃</div></section>
   <div class="sectionTitle"><h2>💬 Mensajes de la comunidad</h2><button class="btn secondary" onclick="route('messages')">Ver / escribir</button></div>
   <div id="homeMessages" class="list"><div class="card muted">Cargando mensajes...</div></div>`;
 }
-
 function register(){return `<div class="sectionTitle"><h2>📝 Inscripción</h2></div>
 <div class="warning"><b>La música queda privada.</b> Los demás concursantes no pueden verla ni escucharla.</div>
 <form id="regForm" class="card form" style="margin-top:10px">
@@ -723,57 +590,6 @@ async function publishPost(e){
  const {error}=await sb.from('posts').insert({title:f.get('title'),body:f.get('body'),image_path,published:true});
  if(error)return toast('No se pudo publicar');toast('Publicación creada');render();
 }
-async function addSponsorMinimal(e){
-  e.preventDefault();
-
-  const f=new FormData(e.target);
-  const name=String(f.get('sponsor_name')||'').trim();
-  const file=f.get('sponsor_image');
-
-  if(!name)return toast('Ingresá el nombre del sponsor');
-  if(!file || !file.size)return toast('Elegí una imagen o logo');
-
-  if(!file.type.startsWith('image/')){
-    return toast('El archivo debe ser una imagen');
-  }
-
-  if(file.size>12*1024*1024){
-    return toast('La imagen es demasiado grande');
-  }
-
-  const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
-  const path=`sponsors/${Date.now()}_${safeName}`;
-
-  const {error:uploadError}=await sb.storage
-    .from('Photos')
-    .upload(path,file);
-
-  if(uploadError){
-    console.error(uploadError);
-    return toast('No se pudo subir la imagen');
-  }
-
-  const {data:publicData}=sb.storage
-    .from('Photos')
-    .getPublicUrl(path);
-
-  const image=publicData.publicUrl;
-
-  const {error}=await sb.from('posts').insert({
-    title:SPONSOR_TITLE,
-    body:JSON.stringify({name,image}),
-    published:true
-  });
-
-  if(error){
-    console.error(error);
-    return toast('No se pudo publicar el sponsor');
-  }
-
-  toast('Sponsor publicado');
-  e.target.reset();
-  render();
-}
 async function deleteMessage(id){
  if(!confirm('¿Eliminar este mensaje público?'))return;
  const {error}=await sb.from('public_messages').delete().eq('id',id);if(error)return toast('No se pudo eliminar');toast('Mensaje eliminado');render();
@@ -823,7 +639,7 @@ async function adminPanel(){
   <div class="sectionTitle"><h2>⭐ Sponsors</h2></div>
   <form id="sponsorFormMinimal" class="card form">
     <div class="field"><label>Nombre del sponsor *</label><input name="sponsor_name" required></div>
-    <div class="field"><label>Logo / imagen del sponsor</label><input id="sponsorImageFile" name="sponsor_image" type="file" accept="image/*"></div>
+    <div class="field"><label>URL de la imagen o logo</label><input name="sponsor_image" placeholder="https://..."></div>
     <button class="btn">PUBLICAR SPONSOR</button>
   </form>
   <div class="sectionTitle"><h3>Sponsors cargados</h3></div>
@@ -990,79 +806,10 @@ async function renderAdminSponsorsMinimal(){
     return `<div class="card">
       ${o.image?`<img src="${esc(o.image)}" alt="${esc(o.name)}" style="width:100%;max-height:220px;object-fit:contain;border-radius:12px;background:#fff">`:''}
       <h3>${esc(o.name)}</h3>
-<button class="btn secondary" onclick="editSponsorMinimal('${esc(s.id)}')">✏️ EDITAR</button>
       <button class="btn danger" onclick="deleteSponsorMinimal('${esc(s.id)}')">🗑️ ELIMINAR SPONSOR</button>
     </div>`;
   }).join('');
 }
-async function editSponsorMinimal(id){
-  const {data:{session}}=await sb.auth.getSession();
-  if(!session || session.user.id!==cfg.adminUserId){
-    return toast('Solo el administrador puede editar sponsors');
-  }
-
-  const {data,error}=await sb.from('posts')
-    .select('body')
-    .eq('id',id)
-    .eq('title',SPONSOR_TITLE)
-    .single();
-
-  if(error || !data)return toast('No se pudo cargar el sponsor');
-
-  let o={name:'Sponsor',image:''};
-  try{o={...o,...JSON.parse(data.body||'{}')}}catch{}
-
-  const name=prompt('Nombre del sponsor',o.name);
-  if(name===null)return;
-  if(!name.trim())return toast('Ingresá el nombre del sponsor');
-
-  if(!confirm('¿Querés cambiar también la imagen?')){
-    const {error:upErr}=await sb.from('posts')
-      .update({body:JSON.stringify({name:name.trim(),image:o.image})})
-      .eq('id',id);
-
-    if(upErr)return toast('No se pudo editar el sponsor');
-
-    toast('Sponsor actualizado');
-    return renderAdminSponsorsMinimal();
-  }
-
-  const input=document.createElement('input');
-  input.type='file';
-  input.accept='image/*';
-
-  input.onchange=async()=>{
-    const file=input.files?.[0];
-    if(!file)return;
-
-    const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
-    const path=`sponsors/${Date.now()}_${safeName}`;
-
-    const {error:uploadError}=await sb.storage
-      .from('Photos')
-      .upload(path,file);
-
-    if(uploadError)return toast('No se pudo subir la imagen');
-
-    const {data:publicData}=sb.storage
-      .from('Photos')
-      .getPublicUrl(path);
-
-    const image=publicData.publicUrl;
-
-    const {error:upErr}=await sb.from('posts')
-      .update({body:JSON.stringify({name:name.trim(),image})})
-      .eq('id',id);
-
-    if(upErr)return toast('No se pudo editar el sponsor');
-
-    toast('Sponsor actualizado');
-    renderAdminSponsorsMinimal();
-  };
-
-  input.click();
-}
-
 
 async function deleteAdminVideo(path){
   const {data:{session}}=await sb.auth.getSession();
