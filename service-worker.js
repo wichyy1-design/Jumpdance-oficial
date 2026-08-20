@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v23-novedades-admin';
+const CACHE_NAME='jumpdance-v24-novedades-admin';
 const APP_SHELL=[
   '/',
   '/index.html',
@@ -47,12 +47,12 @@ self.addEventListener('fetch', event => {
   }
 
   event.respondWith(
-    caches.match(req).then(cached => cached || fetch(req).then(res => {
-      if (url.origin === self.location.origin && res.ok) {
-        const copy = res.clone();
-        caches.open(CACHE_NAME).then(c => c.put(req, copy));
-      }
-      return res;
-    }))
-  );
+  fetch(req).then(res => {
+    if (url.origin === self.location.origin && res.ok) {
+      const copy = res.clone();
+      caches.open(CACHE_NAME).then(c => c.put(req, copy));
+    }
+    return res;
+  }).catch(() => caches.match(req))
+);
 });
