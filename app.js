@@ -990,10 +990,79 @@ async function renderAdminSponsorsMinimal(){
     return `<div class="card">
       ${o.image?`<img src="${esc(o.image)}" alt="${esc(o.name)}" style="width:100%;max-height:220px;object-fit:contain;border-radius:12px;background:#fff">`:''}
       <h3>${esc(o.name)}</h3>
+<button class="btn secondary" onclick="editSponsorMinimal('${esc(s.id)}')">✏️ EDITAR</button>
       <button class="btn danger" onclick="deleteSponsorMinimal('${esc(s.id)}')">🗑️ ELIMINAR SPONSOR</button>
     </div>`;
   }).join('');
 }
+async function editSponsorMinimal(id){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session || session.user.id!==cfg.adminUserId){
+    return toast('Solo el administrador puede editar sponsors');
+  }
+
+  const {data,error}=await sb.from('posts')
+    .select('body')
+    .eq('id',id)
+    .eq('title',SPONSOR_TITLE)
+    .single();
+
+  if(error || !data)return toast('No se pudo cargar el sponsor');
+
+  let o={name:'Sponsor',image:''};
+  try{o={...o,...JSON.parse(data.body||'{}')}}catch{}
+
+  const name=prompt('Nombre del sponsor',o.name);
+  if(name===null)return;
+  if(!name.trim())return toast('Ingresá el nombre del sponsor');
+
+  if(!confirm('¿Querés cambiar también la imagen?')){
+    const {error:upErr}=await sb.from('posts')
+      .update({body:JSON.stringify({name:name.trim(),image:o.image})})
+      .eq('id',id);
+
+    if(upErr)return toast('No se pudo editar el sponsor');
+
+    toast('Sponsor actualizado');
+    return renderAdminSponsorsMinimal();
+  }
+
+  const input=document.createElement('input');
+  input.type='file';
+  input.accept='image/*';
+
+  input.onchange=async()=>{
+    const file=input.files?.[0];
+    if(!file)return;
+
+    const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    const path=`sponsors/${Date.now()}_${safeName}`;
+
+    const {error:uploadError}=await sb.storage
+      .from('Photos')
+      .upload(path,file);
+
+    if(uploadError)return toast('No se pudo subir la imagen');
+
+    const {data:publicData}=sb.storage
+      .from('Photos')
+      .getPublicUrl(path);
+
+    const image=publicData.publicUrl;
+
+    const {error:upErr}=await sb.from('posts')
+      .update({body:JSON.stringify({name:name.trim(),image})})
+      .eq('id',id);
+
+    if(upErr)return toast('No se pudo editar el sponsor');
+
+    toast('Sponsor actualizado');
+    renderAdminSponsorsMinimal();
+  };
+
+  input.click();
+}
+
 
 async function deleteAdminVideo(path){
   const {data:{session}}=await sb.auth.getSession();
