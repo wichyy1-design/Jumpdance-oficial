@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v32-anime-video-intro';
+const CACHE_NAME='jumpdance-v32-1-anime-video-intro';
 const APP_SHELL=[
   '/',
   '/index.html',
