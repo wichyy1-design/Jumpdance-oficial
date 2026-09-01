@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v27-1-splash-first-frame';
+const CACHE_NAME='jumpdance-v27-2-icon-transition';
 const APP_SHELL=[
   '/',
   '/index.html',
