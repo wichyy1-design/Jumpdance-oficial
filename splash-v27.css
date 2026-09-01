@@ -1,4 +1,4 @@
-/* Jumpdance v27 - pantalla de apertura de la app */
+/* Jumpdance v27.2 - apertura continua desde el icono de la app */
 .jdSplash{display:none}
 .jdSplash.show{
   position:fixed;
@@ -8,29 +8,66 @@
   place-items:center;
   overflow:hidden;
   background:
-    radial-gradient(circle at 50% 48%,rgba(255,79,163,.14),transparent 34%),
-    radial-gradient(circle at 50% 56%,rgba(255,205,92,.08),transparent 44%),
-    #080711;
+    radial-gradient(circle at 50% 52%,rgba(255,79,163,.16),transparent 30%),
+    radial-gradient(circle at 50% 61%,rgba(255,205,92,.07),transparent 44%),
+    linear-gradient(180deg,#05040a 0%,#080711 58%,#07050d 100%);
   color:#fff;
 }
+.jdSplash.show::before,.jdSplash.show::after{
+  content:"";
+  position:absolute;
+  inset:auto;
+  pointer-events:none;
+  border-radius:50%;
+  filter:blur(18px);
+  opacity:.42;
+}
+.jdSplash.show::before{
+  width:72vw;height:28vw;max-width:560px;max-height:220px;
+  left:-10vw;bottom:4vh;
+  background:radial-gradient(ellipse,rgba(255,31,139,.27),transparent 68%);
+  transform:rotate(-12deg);
+  animation:jdSplashMist 2.3s ease-in-out both;
+}
+.jdSplash.show::after{
+  width:58vw;height:22vw;max-width:480px;max-height:180px;
+  right:-12vw;bottom:13vh;
+  background:radial-gradient(ellipse,rgba(167,66,255,.18),transparent 70%);
+  transform:rotate(14deg);
+  animation:jdSplashMist 2.3s .12s ease-in-out both reverse;
+}
 .jdSplashInner{
+  position:relative;
+  z-index:2;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
   width:min(86vw,520px);
+  min-height:270px;
   text-align:center;
-  opacity:0;
-  transform:scale(.88);
-  animation:jdSplashIntro 1.42s cubic-bezier(.2,.78,.2,1) forwards;
 }
+/* Continúa visualmente la ampliación que hace Android con el mismo ícono */
+.jdSplashInner::before{
+  content:"";
+  position:absolute;
+  width:clamp(88px,25vw,132px);
+  aspect-ratio:1;
+  border-radius:24%;
+  background:url('/icons/icon-192.png') center/cover no-repeat;
+  box-shadow:0 0 0 1px rgba(255,255,255,.10),0 0 30px rgba(255,79,163,.30),0 18px 55px rgba(0,0,0,.45);
+  opacity:1;
+  transform:scale(.82);
+  animation:jdIconContinue 1.22s cubic-bezier(.16,.82,.24,1) forwards;
+}
+.jdSplashMark,.jdSplashLogo,.jdSplashLine{opacity:0}
 .jdSplashMark{
   margin-bottom:14px;
   font-size:25px;
   line-height:1;
   color:#ffd56a;
-  filter:drop-shadow(0 0 16px rgba(255,213,106,.35));
-  animation:jdSplashStar 1.25s ease-out both;
+  filter:drop-shadow(0 0 16px rgba(255,213,106,.4));
+  animation:jdSplashStar .82s .78s cubic-bezier(.2,.8,.2,1) forwards;
 }
 .jdSplashLogo{
   margin:0;
@@ -43,7 +80,9 @@
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
-  filter:drop-shadow(0 0 22px rgba(255,79,163,.18));
+  filter:drop-shadow(0 0 22px rgba(255,79,163,.22));
+  transform:scale(.84);
+  animation:jdBrandReveal 1.05s .69s cubic-bezier(.16,.82,.24,1) forwards;
 }
 .jdSplashYear{
   display:block;
@@ -60,24 +99,37 @@
   margin-top:19px;
   border-radius:999px;
   background:linear-gradient(90deg,transparent,#ff4fa3,#ffd66b,transparent);
-  box-shadow:0 0 16px rgba(255,79,163,.34);
-  animation:jdSplashLine 1.05s .18s ease-out forwards;
+  box-shadow:0 0 16px rgba(255,79,163,.38);
+  animation:jdSplashLine .75s 1.05s ease-out forwards;
 }
 .jdSplash.hide{
-  animation:jdSplashOut .34s ease forwards;
+  animation:jdSplashOut .38s ease forwards;
   pointer-events:none;
 }
 html.jdSplashActive,html.jdSplashActive body{overflow:hidden!important}
-@keyframes jdSplashIntro{
-  0%{opacity:0;transform:scale(.86);filter:blur(7px)}
-  42%{opacity:1;filter:blur(0)}
-  76%{opacity:1;transform:scale(1.035)}
+@keyframes jdIconContinue{
+  0%{opacity:1;transform:scale(.82);filter:blur(0)}
+  36%{opacity:1;transform:scale(1);filter:blur(0)}
+  66%{opacity:1;transform:scale(1.16);filter:blur(0);box-shadow:0 0 0 1px rgba(255,255,255,.12),0 0 45px rgba(255,79,163,.48),0 18px 60px rgba(0,0,0,.45)}
+  100%{opacity:0;transform:scale(1.58);filter:blur(8px);box-shadow:0 0 70px rgba(255,79,163,.2)}
+}
+@keyframes jdBrandReveal{
+  0%{opacity:0;transform:scale(.84);filter:blur(8px)}
+  48%{opacity:1;filter:blur(0)}
+  78%{opacity:1;transform:scale(1.035)}
   100%{opacity:1;transform:scale(1)}
 }
-@keyframes jdSplashStar{0%{opacity:0;transform:scale(.3) rotate(-35deg)}60%{opacity:1;transform:scale(1.18) rotate(8deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
-@keyframes jdSplashLine{to{width:min(230px,58vw)}}
-@keyframes jdSplashOut{to{opacity:0;visibility:hidden;transform:scale(1.025)}}
+@keyframes jdSplashStar{
+  0%{opacity:0;transform:scale(.35) translateY(7px) rotate(-30deg)}
+  65%{opacity:1;transform:scale(1.15) translateY(0) rotate(7deg)}
+  100%{opacity:1;transform:scale(1) rotate(0)}
+}
+@keyframes jdSplashLine{0%{opacity:0;width:0}30%{opacity:1}100%{opacity:1;width:min(230px,58vw)}}
+@keyframes jdSplashMist{0%{opacity:.12;transform:translate3d(-8px,8px,0) scale(.9)}55%{opacity:.48}100%{opacity:.24;transform:translate3d(18px,-7px,0) scale(1.08)}}
+@keyframes jdSplashOut{to{opacity:0;visibility:hidden;transform:scale(1.018)}}
 @media(prefers-reduced-motion:reduce){
-  .jdSplashInner,.jdSplashMark,.jdSplashLine{animation:none!important;opacity:1;transform:none}
-  .jdSplashLine{width:min(230px,58vw)}
+  .jdSplashInner::before{animation:none;opacity:0}
+  .jdSplashMark,.jdSplashLogo{animation:none!important;opacity:1;transform:none;filter:none}
+  .jdSplashLine{animation:none!important;opacity:1;width:min(230px,58vw)}
+  .jdSplash.show::before,.jdSplash.show::after{animation:none}
 }
