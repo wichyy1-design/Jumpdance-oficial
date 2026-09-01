@@ -1,9 +1,10 @@
-const CACHE_NAME='jumpdance-v25-galeria';
+const CACHE_NAME='jumpdance-v25-1-mobile-fit';
 const APP_SHELL=[
   '/',
   '/index.html',
   '/styles.css',
   '/gallery-v25.css',
+  '/mobile-fit-v25.css',
   '/app.js',
   '/gallery-v25.js',
   '/config.js',
