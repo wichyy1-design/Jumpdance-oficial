@@ -23,6 +23,6 @@
   };
 
   const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
-  // Entrada, saludo anime articulado, destello, marca, pausa y fundido.
-  setTimeout(close,reduced?1250:3650);
+  // Entrada, brazo se eleva, saludo de mano, guiño, destello, marca y fundido.
+  setTimeout(close,reduced?1250:4350);
 })();
