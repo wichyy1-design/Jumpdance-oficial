@@ -1,9 +1,15 @@
 (() => {
   const standalone=window.matchMedia?.('(display-mode: standalone)')?.matches||window.navigator.standalone===true;
-  if(!standalone)return;
+  if(!standalone){
+    document.documentElement.classList.remove('jdBootSplash');
+    return;
+  }
 
   const splash=document.getElementById('jdSplash');
-  if(!splash)return;
+  if(!splash){
+    document.documentElement.classList.remove('jdBootSplash');
+    return;
+  }
 
   document.documentElement.classList.add('jdSplashActive');
   splash.classList.add('show');
@@ -12,6 +18,7 @@
   const close=()=>{
     splash.classList.add('hide');
     document.documentElement.classList.remove('jdSplashActive');
+    document.documentElement.classList.remove('jdBootSplash');
     setTimeout(()=>{
       splash.remove();
     },380);
