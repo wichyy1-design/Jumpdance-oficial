@@ -1,4 +1,4 @@
-/* Jumpdance v27.3 - apertura cinematográfica más pausada */
+/* Jumpdance v27.4 - apertura cinematográfica con nuevo icono */
 .jdSplash{display:none}
 .jdSplash.show{
   position:fixed;
@@ -53,7 +53,7 @@
   width:clamp(88px,25vw,132px);
   aspect-ratio:1;
   border-radius:24%;
-  background:url('/icons/icon-192.png') center/cover no-repeat;
+  background:url('/icons/icon-jumpdance.svg?v=27.4') center/cover no-repeat;
   box-shadow:0 0 0 1px rgba(255,255,255,.10),0 0 30px rgba(255,79,163,.30),0 18px 55px rgba(0,0,0,.45);
   opacity:1;
   transform:scale(.82);
