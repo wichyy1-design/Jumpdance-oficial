@@ -19,11 +19,9 @@
     splash.classList.add('hide');
     document.documentElement.classList.remove('jdSplashActive');
     document.documentElement.classList.remove('jdBootSplash');
-    setTimeout(()=>{
-      splash.remove();
-    },380);
+    setTimeout(()=>splash.remove(),420);
   };
 
-  const delay=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches?850:1650;
-  setTimeout(close,delay);
+  const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+  setTimeout(close,reduced?900:2150);
 })();
