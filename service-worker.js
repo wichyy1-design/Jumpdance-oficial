@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v31-pro-magical-splash';
+const CACHE_NAME='jumpdance-v32-anime-video-intro';
 const APP_SHELL=[
   '/',
   '/index.html',
@@ -6,9 +6,11 @@ const APP_SHELL=[
   '/gallery-v25.css',
   '/mobile-fit-v25.css',
   '/admin-v26.css',
-  '/splash-v27.css',
-  '/splash-pro-v31.css',
-  '/splash-pro-v31.svg',
+  '/splash-video-v32.css',
+  '/splash-video-v32-part0.js',
+  '/splash-video-v32-part1.js',
+  '/splash-video-v32-part2.js',
+  '/splash-video-v32.js',
   '/home-redesign-v28.css',
   '/results-v28.css',
   '/app.js',
@@ -17,7 +19,6 @@ const APP_SHELL=[
   '/admin-v26.js',
   '/username-auth-v26.js',
   '/admin-modules-v26.js',
-  '/splash-v27.js',
   '/home-redesign-v28.js',
   '/results-v28.js',
   '/results-v28-years-fix.js',
