@@ -1,0 +1,24 @@
+(() => {
+  const state={items:[],index:0,startX:0,startY:0};
+  async function list(bucket,type){
+    const {data,error}=await sb.storage.from(bucket).list('',{limit:200,sortBy:{column:'created_at',order:'desc'}});
+    if(error){console.error(error);return []}
+    return (data||[]).filter(x=>x?.name&&x.name!=='.emptyFolderPlaceholder').map(x=>({name:x.name,type,url:sb.storage.from(bucket).getPublicUrl(x.name).data.publicUrl}));
+  }
+  function ensure(){
+    let v=document.getElementById('photoViewer');
+    if(v)return v;
+    v=document.createElement('div');
+    v.id='photoViewer';v.className='photoViewer hidden';v.innerHTML=`<div class="photoViewerBackdrop" onclick="JDGallery.close()"></div><div class="photoViewerPanel"><div class="photoViewerTopbar"><span id="photoViewerCounter"></span><div><button class="photoViewerAction" onclick="JDGallery.download(event)">⬇ Descargar</button><button class="photoViewerClose" onclick="JDGallery.close()">×</button></div></div><button class="photoViewerNav photoViewerPrev" onclick="JDGallery.prev()">‹</button><div class="photoViewerStage"><img id="photoViewerImage" class="photoViewerImage" alt="Foto ampliada"></div><button class="photoViewerNav photoViewerNext" onclick="JDGallery.next()">›</button><div class="photoViewerHint">Deslizá hacia los costados para cambiar de foto</div></div>`;
+    document.body.appendChild(v);
+    const img=v.querySelector('#photoViewerImage');
+    img.addEventListener('touchstart',e=>{const t=e.changedTouches?.[0];if(t){state.startX=t.clientX;state.startY=t.clientY}},{passive:true});
+    img.addEventListener('touchend',e=>{const t=e.changedTouches?.[0];if(!t)return;const dx=t.clientX-state.startX,dy=t.clientY-state.startY;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.15){dx<0?JDGallery.next():JDGallery.prev()}},{passive:true});
+    return v;
+  }
+  function refresh(){const item=state.items[state.index];if(!item)return;const img=document.getElementById('photoViewerImage');const c=document.getElementById('photoViewerCounter');img.src=item.url;c.textContent=`${state.index+1} / ${state.items.length}`;const many=state.items.length>1;document.querySelector('.photoViewerPrev').hidden=!many;document.querySelector('.photoViewerNext').hidden=!many}
+  window.JDGallery={setItems(items){state.items=items||[]},open(i){if(!state.items.length)return;state.index=Math.max(0,Math.min(Number(i)||0,state.items.length-1));const v=ensure();v.classList.remove('hidden');document.body.classList.add('viewerOpen');refresh()},close(){const v=document.getElementById('photoViewer');if(v)v.classList.add('hidden');document.body.classList.remove('viewerOpen')},prev(){if(!state.items.length)return;state.index=(state.index-1+state.items.length)%state.items.length;refresh()},next(){if(!state.items.length)return;state.index=(state.index+1)%state.items.length;refresh()},async download(e){e?.preventDefault?.();const item=state.items[state.index];if(!item)return;try{const r=await fetch(item.url);const b=await r.blob();const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=item.name||'jumpdance-foto.jpg';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}catch{window.open(item.url,'_blank','noopener,noreferrer')}}};
+  document.addEventListener('keydown',e=>{const v=document.getElementById('photoViewer');if(!v||v.classList.contains('hidden'))return;if(e.key==='Escape')JDGallery.close();if(e.key==='ArrowLeft')JDGallery.prev();if(e.key==='ArrowRight')JDGallery.next()});
+  window.photos=async function(){const items=await list('Photos','photo');JDGallery.setItems(items);if(!items.length)return `<div class="sectionTitle"><h2>📸 Fotos</h2></div><div class="card muted">Todavía no hay contenido.</div>`;return `<div class="sectionTitle"><h2>📸 Fotos</h2><span class="sectionBadge">${items.length} ${items.length===1?'foto':'fotos'}</span></div><div class="mediaGrid photoGridV25">${items.map((x,i)=>`<button class="galleryPhotoCard" onclick="JDGallery.open(${i})"><img loading="lazy" decoding="async" src="${esc(x.url)}" alt="Foto de Jumpdance ${i+1}"><span class="galleryPhotoZoom">⌕</span></button>`).join('')}</div>`};
+  window.videos=async function(){const items=await list('Videos','video');if(!items.length)return `<div class="sectionTitle"><h2>🎬 Videos</h2></div><div class="card muted">Todavía no hay contenido.</div>`;return `<div class="sectionTitle"><h2>🎬 Videos</h2><span class="sectionBadge">${items.length} ${items.length===1?'video':'videos'}</span></div><div class="videoGridV25">${items.map((x,i)=>`<article class="videoCardV25"><video controls playsinline preload="metadata" src="${esc(x.url)}"></video><div class="videoMetaV25"><span>Video ${i+1}</span><a href="${esc(x.url)}" target="_blank" rel="noopener noreferrer">Abrir</a></div></article>`).join('')}</div>`};
+})();
