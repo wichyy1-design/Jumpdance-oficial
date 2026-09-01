@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v28-results-editor';
+const CACHE_NAME='jumpdance-v28-2-results-years-delete';
 const APP_SHELL=[
   '/',
   '/index.html',
@@ -18,6 +18,8 @@ const APP_SHELL=[
   '/splash-v27.js',
   '/home-redesign-v28.js',
   '/results-v28.js',
+  '/results-v28-years-fix.js',
+  '/results-v28-delete-year.js',
   '/config.js',
   '/manifest.json',
   '/icons/icon-jumpdance.svg',
