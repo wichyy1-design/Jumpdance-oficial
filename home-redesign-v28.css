@@ -1,0 +1,228 @@
+/* Jumpdance v28 - rediseño premium de Inicio */
+#app.homeV28{
+  --home-ink:#070610;
+  --home-panel:#100d19;
+  --home-panel-2:#171020;
+  --home-line:rgba(255,255,255,.10);
+  --home-pink:#ff4fa3;
+  --home-pink-soft:#ff7dbb;
+  --home-purple:#9a6cff;
+  --home-gold:#ffc94c;
+  --home-gold-soft:#ffe08c;
+  padding-top:8px;
+}
+
+body:has(#app.homeV28){
+  background:
+    radial-gradient(circle at 8% 8%,rgba(255,79,163,.10),transparent 25%),
+    radial-gradient(circle at 92% 2%,rgba(141,107,255,.12),transparent 28%),
+    linear-gradient(180deg,#080611 0%,#090712 55%,#06050c 100%);
+}
+
+body:has(#app.homeV28) .topbar{
+  background:rgba(7,6,15,.94);
+  border-bottom-color:rgba(255,255,255,.06);
+}
+body:has(#app.homeV28) .brand{
+  background:linear-gradient(90deg,#ff63ad 12%,#f6f0f5 43%,#ffd66b 78%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+body:has(#app.homeV28) .brand span{color:inherit}
+body:has(#app.homeV28) .iconBtn{
+  background:linear-gradient(145deg,#171321,#0c0a13);
+  border-color:rgba(255,255,255,.11);
+  box-shadow:inset 0 0 22px rgba(255,255,255,.025),0 8px 22px rgba(0,0,0,.22);
+}
+
+/* Presentación */
+#app.homeV28 .homeWelcome{
+  position:relative;
+  margin:4px 2px 16px;
+  padding:8px 2px 5px;
+  align-items:flex-start;
+}
+#app.homeV28 .homeWelcome>div:first-child{max-width:560px}
+#app.homeV28 .homeWelcome .kicker{
+  margin-bottom:7px;
+  color:#ff66ae;
+  font-size:11px;
+  letter-spacing:1.35px;
+}
+#app.homeV28 .homeWelcome h1{
+  max-width:520px;
+  font-size:clamp(29px,7.4vw,43px);
+  line-height:1.02;
+  letter-spacing:-1.2px;
+  background:linear-gradient(94deg,#fff 8%,#fff 34%,#ff76b7 62%,#ffd86a 96%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+#app.homeV28 .homeWelcome p{
+  max-width:520px;
+  margin-top:10px;
+  color:#aaa3b6;
+  font-size:14px;
+  line-height:1.55;
+}
+#app.homeV28 .homeMark{
+  margin-top:36px;
+  width:52px;height:52px;flex-basis:52px;
+  border-radius:18px;
+  background:radial-gradient(circle at 45% 35%,rgba(255,201,76,.18),transparent 52%),linear-gradient(145deg,#1b1423,#0e0b15);
+  border-color:rgba(255,201,76,.22);
+  box-shadow:0 12px 30px rgba(0,0,0,.30),inset 0 0 24px rgba(255,201,76,.06);
+}
+
+/* Portada */
+#app.homeV28 .heroCard{
+  border-radius:28px;
+  border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(180deg,#100c17,#0b0911);
+  box-shadow:0 24px 60px rgba(0,0,0,.35),0 0 0 1px rgba(255,79,163,.03);
+}
+#app.homeV28 .heroMedia{overflow:hidden;background:#07060b}
+#app.homeV28 .heroMedia:after{
+  height:92px;
+  background:linear-gradient(180deg,transparent,rgba(8,6,13,.78));
+}
+#app.homeV28 .editableHeroImg{
+  min-height:250px;
+  max-height:520px;
+  object-fit:cover;
+  object-position:center;
+  transform:scale(1.002);
+}
+#app.homeV28 .editableHeroInfo{
+  padding:14px;
+  gap:12px;
+  background:linear-gradient(180deg,#110d19 0%,#0b0911 100%);
+}
+#app.homeV28 .eventMeta{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#app.homeV28 .infoPill{
+  min-height:58px;
+  padding:11px 13px;
+  border-radius:17px;
+  border-color:rgba(255,255,255,.10);
+  background:linear-gradient(145deg,#15111e,#0d0a13);
+  color:#ece7ef;
+  font-size:12px;
+  box-shadow:inset 0 0 22px rgba(255,255,255,.015);
+}
+#app.homeV28 .infoPill:first-child{border-color:rgba(255,79,163,.22)}
+#app.homeV28 .infoPill:last-child{border-color:rgba(255,201,76,.20)}
+#app.homeV28 .cta{
+  width:min(92%,560px);
+  margin:0 auto;
+  min-height:54px;
+  border-radius:999px;
+  font-size:15px;
+  letter-spacing:.2px;
+  background:linear-gradient(100deg,#c92780 0%,#f04f91 48%,#f3b43e 100%);
+  border:1px solid rgba(255,221,141,.45);
+  box-shadow:0 14px 34px rgba(232,57,139,.20),inset 0 1px 0 rgba(255,255,255,.22);
+}
+#app.homeV28 .cta:after{content:'  ›';font-size:22px;vertical-align:-1px}
+
+/* Accesos */
+#app.homeV28 .sectionHeader{margin:21px 2px 11px}
+#app.homeV28 .sectionHeader .kicker{color:#a79eb4}
+#app.homeV28 .sectionHeader h2{font-size:18px}
+#app.homeV28 .sectionBadge{display:none}
+#app.homeV28 .quickGrid{gap:11px}
+#app.homeV28 .quickCard{
+  min-height:143px;
+  padding:14px;
+  border-radius:21px;
+  background:
+    radial-gradient(circle at 95% 0%,rgba(255,255,255,.045),transparent 35%),
+    linear-gradient(145deg,#14101c,#0b0912);
+  border-color:rgba(255,255,255,.09)!important;
+  box-shadow:0 13px 34px rgba(0,0,0,.20),inset 0 0 32px rgba(255,255,255,.012);
+}
+#app.homeV28 .quickCard:before{
+  content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;
+  background:linear-gradient(145deg,currentColor,transparent 38%,rgba(255,255,255,.03));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;opacity:.42;pointer-events:none;
+}
+#app.homeV28 .quickCard:after{width:92px;height:92px;right:-37px;top:-35px;opacity:.035}
+#app.homeV28 .quickCard .ico{
+  width:46px;height:46px;margin-bottom:17px;border-radius:15px;
+  font-size:23px;
+  box-shadow:inset 0 0 22px rgba(255,255,255,.025);
+}
+#app.homeV28 .quickCard h3{font-size:14px;margin-bottom:6px;letter-spacing:.15px}
+#app.homeV28 .quickCard p{font-size:11px;color:#a29baa;line-height:1.42}
+#app.homeV28 .quickArrow{font-size:20px;color:#777080}
+
+/* Cuenta regresiva + comunidad */
+#app.homeV28 .winnerBanner{display:none}
+#app.homeV28 .homeCommunityCountdown{
+  margin:14px 0 4px;
+  padding:14px;
+  border-radius:23px;
+  border:1px solid rgba(255,79,163,.31);
+  background:
+    radial-gradient(circle at 8% 45%,rgba(255,79,163,.10),transparent 28%),
+    radial-gradient(circle at 88% 22%,rgba(255,201,76,.07),transparent 26%),
+    linear-gradient(145deg,#15101c,#0b0911);
+  box-shadow:0 16px 38px rgba(0,0,0,.24);
+}
+#app.homeV28 .homeCommunityLead{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,.07);
+}
+#app.homeV28 .homeCommunityLead button{
+  width:47px;height:47px;flex:0 0 47px;border-radius:15px;border:1px solid rgba(255,79,163,.28);
+  background:rgba(255,79,163,.08);color:#ff77b6;font-size:23px;
+}
+#app.homeV28 .homeCommunityLead strong{display:block;font-size:15px}
+#app.homeV28 .homeCommunityLead small{display:block;margin-top:4px;color:#9e97a7;font-size:11px}
+#app.homeV28 .countdownTitle{text-align:center;color:#ff79b7;font-size:10px;font-weight:900;letter-spacing:1.15px;text-transform:uppercase}
+#app.homeV28 .countdownGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px;text-align:center}
+#app.homeV28 .countdownValue{
+  display:block;
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:clamp(22px,7vw,34px);
+  line-height:1;
+  color:#ffd86b;
+  text-shadow:0 0 18px rgba(255,201,76,.12);
+}
+#app.homeV28 .countdownLabel{display:block;margin-top:5px;color:#9e96a7;font-size:8px;font-weight:800;letter-spacing:.55px;text-transform:uppercase}
+#app.homeV28 .countdownDone{padding:12px 0 3px;text-align:center;color:#ffd86b;font-weight:900;font-size:17px}
+
+#app.homeV28 .sectionTitle.homeMessagesTitle{margin-top:17px;align-items:center}
+#app.homeV28 .sectionTitle.homeMessagesTitle h2{font-size:17px}
+#app.homeV28 .sectionTitle.homeMessagesTitle .btn{min-height:38px;padding:9px 12px;border-radius:12px;font-size:11px}
+#app.homeV28 #homeMessages .messageCard,
+#app.homeV28 #homeMessages .card{
+  border-color:rgba(255,255,255,.08);
+  background:linear-gradient(145deg,#120f18,#0b0911);
+}
+
+/* Barra inferior */
+body:has(#app.homeV28) .bottomNav{
+  background:rgba(7,6,13,.97);
+  border-top-color:rgba(255,255,255,.07);
+}
+body:has(#app.homeV28) .bottomNav .active{color:#ff69ad}
+body:has(#app.homeV28) .bottomNav .active:before{
+  width:38px;background:linear-gradient(90deg,#ff4fa3,#ffcc58);
+}
+
+@media (max-width:520px){
+  #app.homeV28 .homeMark{display:none}
+  #app.homeV28 .eventMeta{grid-template-columns:1fr 1fr}
+  #app.homeV28 .infoPill{font-size:10.5px;padding:10px;gap:6px}
+  #app.homeV28 .editableHeroImg{min-height:230px;max-height:430px}
+}
+@media (max-width:370px){
+  #app.homeV28 .eventMeta{grid-template-columns:1fr}
+  #app.homeV28 .quickGrid{gap:8px}
+  #app.homeV28 .quickCard{padding:12px;min-height:139px}
+}
+@media (min-width:720px){
+  #app.homeV28 .quickGrid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  #app.homeV28 .quickCard{min-height:158px}
+  #app.homeV28 .homeCommunityCountdown{display:grid;grid-template-columns:minmax(220px,.75fr) 1.5fr;gap:20px;align-items:center}
+  #app.homeV28 .homeCommunityLead{border-bottom:0;border-right:1px solid rgba(255,255,255,.07);padding:4px 20px 4px 0;margin:0}
+}
