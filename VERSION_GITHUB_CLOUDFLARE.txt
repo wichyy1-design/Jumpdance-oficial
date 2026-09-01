@@ -1,3 +1,5 @@
-JUMPDANCE OFICIAL - VERSION 24 ESTILO NOVA
-Cambio: rediseño visual completo tipo dashboard Nova, sin modificar la lógica de datos.
-Incluye: nueva barra superior, navegación, inicio, tarjetas, formularios, panel admin y caché v24.
+JUMPDANCE OFICIAL - VERSION 25 MEJORAS
+Cambios: galería de fotos mejorada con visor sobre la misma pantalla, cerrar, descargar, anterior/siguiente y gesto de deslizamiento.
+Videos: presentación más limpia, reproducción integrada y acceso para abrir el archivo.
+PWA: caché actualizada a v25 e inclusión de los nuevos recursos de galería.
+Base visual: se mantiene el estilo Nova de la versión 24 y la lógica existente de datos/administración.
