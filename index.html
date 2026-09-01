@@ -12,7 +12,8 @@
 <script>
 (function(){
   var standalone=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||window.navigator.standalone===true;
-  if(standalone)document.documentElement.classList.add('jdBootSplash');
+  var isAndroid=/Android/i.test(window.navigator.userAgent||'');
+  if(standalone||isAndroid)document.documentElement.classList.add('jdBootSplash');
 })();
 </script>
 <style>
@@ -28,7 +29,7 @@ html.jdBootSplash #jdSplash{display:block!important;position:fixed!important;ins
 <link rel="stylesheet" href="gallery-v25.css">
 <link rel="stylesheet" href="mobile-fit-v25.css">
 <link rel="stylesheet" href="admin-v26.css">
-<link rel="stylesheet" href="splash-video-v32.css?v=32">
+<link rel="stylesheet" href="splash-video-v32.css?v=32.1">
 <link rel="stylesheet" href="home-redesign-v28.css?v=28">
 <link rel="stylesheet" href="results-v28.css?v=28">
 </head>
@@ -41,10 +42,10 @@ html.jdBootSplash #jdSplash{display:block!important;position:fixed!important;ins
     </div>
   </div>
 </div>
-<script src="splash-video-v32-part0.js?v=32"></script>
-<script src="splash-video-v32-part1.js?v=32"></script>
-<script src="splash-video-v32-part2.js?v=32"></script>
-<script src="splash-video-v32.js?v=32"></script>
+<script src="splash-video-v32-part0.js?v=32.1"></script>
+<script src="splash-video-v32-part1.js?v=32.1"></script>
+<script src="splash-video-v32-part2.js?v=32.1"></script>
+<script src="splash-video-v32.js?v=32.1"></script>
 
 <header class="topbar">
   <button id="menuBtn" class="iconBtn">☰</button>
