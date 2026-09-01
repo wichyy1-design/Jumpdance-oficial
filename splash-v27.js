@@ -19,10 +19,10 @@
     splash.classList.add('hide');
     document.documentElement.classList.remove('jdSplashActive');
     document.documentElement.classList.remove('jdBootSplash');
-    setTimeout(()=>splash.remove(),500);
+    setTimeout(()=>splash.remove(),450);
   };
 
   const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
-  // Entrada, brazo se eleva, saludo de mano, guiño, destello, marca y fundido.
-  setTimeout(close,reduced?1250:4350);
+  // Entrada elegante, saludo natural, destello, JUMPDANCE, breve pausa y fundido.
+  setTimeout(close,reduced?1200:3300);
 })();
