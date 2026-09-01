@@ -1,4 +1,6 @@
-JUMPDANCE OFICIAL - VERSION 26.2 ADMINISTRACIÓN Y PERMISOS
+JUMPDANCE OFICIAL - VERSION 27 APERTURA DE APP
+Pantalla de apertura: al abrir Jumpdance como app instalada aparece una presentación breve con fondo oscuro, JUMPDANCE 2026, brillo/zoom suave y fundido hacia la app.
+La pantalla de apertura no se repite al navegar entre secciones.
 Panel administrador: organizado por módulos, mostrando una sección por vez.
 Usuarios: acceso con Usuario + Contraseña, sin pedir correo; el administrador principal puede crear usuarios, activarlos/desactivarlos, cambiar contraseña y habilitar módulos individualmente.
 Permisos: Portada, Inscripciones/Músicas, Fotos/Videos, Sponsors, Resultados, Novedades, Publicaciones y Mensajes.
