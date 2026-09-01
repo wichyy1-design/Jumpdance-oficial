@@ -138,6 +138,13 @@
   const previousRender=window.renderAdminResultsMultiYear;
   if(typeof previousRender==='function'){
     window.renderAdminResultsMultiYear=async function(){
+      const deleted=await deletedYears();
+      const selected=clean(localStorage.getItem(ADMIN_YEAR_KEY));
+      if(selected&&deleted.has(selected)){
+        const years=await availableYears();
+        if(years.length)localStorage.setItem(ADMIN_YEAR_KEY,years[0]);
+        else localStorage.removeItem(ADMIN_YEAR_KEY);
+      }
       const result=await previousRender.apply(this,arguments);
       await filterDeletedYearsInAdmin();
       return result;
