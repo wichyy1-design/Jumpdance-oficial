@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v25-2-navigation';
+const CACHE_NAME='jumpdance-v25-2-back-navigation';
 const APP_SHELL=[
   '/',
   '/index.html',
