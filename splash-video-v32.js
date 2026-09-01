@@ -1,8 +1,12 @@
 (()=>{
   const standalone=window.matchMedia?.('(display-mode: standalone)')?.matches||window.navigator.standalone===true;
+  const isAndroid=/Android/i.test(window.navigator.userAgent||'');
+  const appLike=standalone||isAndroid;
   const splash=document.getElementById('jdSplash');
 
-  if(!standalone){
+  // El wrapper Android no siempre reporta display-mode: standalone.
+  // En Android mostramos igualmente la intro para que se vea dentro del APK.
+  if(!appLike){
     document.documentElement.classList.remove('jdBootSplash');
     splash?.remove();
     return;
