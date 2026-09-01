@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v27-3-cinematic-splash';
+const CACHE_NAME='jumpdance-v27-4-new-icon';
 const APP_SHELL=[
   '/',
   '/index.html',
@@ -16,6 +16,8 @@ const APP_SHELL=[
   '/splash-v27.js',
   '/config.js',
   '/manifest.json',
+  '/icons/icon-jumpdance.svg',
+  '/icons/icon-jumpdance-maskable.svg',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
   '/icons/maskable-192.png',
