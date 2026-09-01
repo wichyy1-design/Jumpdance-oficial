@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v33-robust-intro';
+const CACHE_NAME='jumpdance-v34-correct-video-intro';
 const APP_SHELL=[
   '/',
   '/index.html',
@@ -6,9 +6,11 @@ const APP_SHELL=[
   '/gallery-v25.css',
   '/mobile-fit-v25.css',
   '/admin-v26.css',
-  '/splash-v33.css',
-  '/splash-v33.js',
-  '/splash-pro-v31.svg',
+  '/splash-video-v32.css',
+  '/splash-video-v32-part0.js',
+  '/splash-video-v32-part1.js',
+  '/splash-video-v32-part2.js',
+  '/splash-video-v32.js',
   '/home-redesign-v28.css',
   '/results-v28.css',
   '/app.js',
