@@ -1,8 +1,8 @@
-JUMPDANCE OFICIAL - VERSION 26.1 ADMINISTRACIÓN
+JUMPDANCE OFICIAL - VERSION 26.2 ADMINISTRACIÓN Y PERMISOS
 Panel administrador: organizado por módulos, mostrando una sección por vez.
 Usuarios: acceso con Usuario + Contraseña, sin pedir correo; el administrador principal puede crear usuarios, activarlos/desactivarlos, cambiar contraseña y habilitar módulos individualmente.
-Usuario principal: wichyy_1.
 Permisos: Portada, Inscripciones/Músicas, Fotos/Videos, Sponsors, Resultados, Novedades, Publicaciones y Mensajes.
-Notificaciones: soporte push para avisar cuando una nueva inscripción termina de cargar su música; se activa una vez desde el panel en cada dispositivo.
-Seguridad: permisos aplicados también en Supabase/RLS, no solo ocultos en la interfaz.
+Permisos independientes: cada usuario puede entrar solamente a los módulos habilitados sin depender de tener acceso a Inscripciones.
+Notificaciones: soporte push para avisar cuando una nueva inscripción termina de cargar su música; se activa una vez desde el panel en cada dispositivo autorizado.
+Seguridad: permisos aplicados también en Supabase/RLS y Storage, no solo ocultos en la interfaz.
 Incluye además: galería v25, ajuste móvil v25.1 y navegación Atrás v25.2.
