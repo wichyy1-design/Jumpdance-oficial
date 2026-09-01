@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v28-3-results-years-delete';
+const CACHE_NAME='jumpdance-v29-anime-wave';
 const APP_SHELL=[
   '/',
   '/index.html',
@@ -7,6 +7,7 @@ const APP_SHELL=[
   '/mobile-fit-v25.css',
   '/admin-v26.css',
   '/splash-v27.css',
+  '/splash-anime-v29.css',
   '/home-redesign-v28.css',
   '/results-v28.css',
   '/app.js',
