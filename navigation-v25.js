@@ -1,20 +1,31 @@
 (() => {
   const VALID_ROUTES=new Set(['home','register','photos','videos','news','results','sponsors','participants','messages','admin']);
+  const isStandalone=window.matchMedia?.('(display-mode: standalone)')?.matches||window.navigator.standalone===true;
   const currentRoute=()=>{
     const r=location.hash.slice(1)||'home';
     return VALID_ROUTES.has(r)?r:'home';
   };
 
   const initial=currentRoute();
-  history.replaceState({jd:true,guard:true,route:'home'},'', '#home');
-  history.pushState({jd:true,route:initial},'', `#${initial}`);
+  if(isStandalone){
+    history.replaceState({jd:true,guard:true,route:'home'},'', '#home');
+    history.pushState({jd:true,route:initial},'', `#${initial}`);
+  }else{
+    history.replaceState({jd:true,route:initial},'',`#${initial}`);
+  }
 
   window.route=function(r){
     const next=VALID_ROUTES.has(r)?r:'home';
+
+    if(history.state?.overlay==='drawer'){
+      history.replaceState({jd:true,route:currentRoute()},'',location.href);
+    }
+
     if(currentRoute()===next){
       if(typeof render==='function')render();
       return;
     }
+
     history.pushState({jd:true,route:next},'',`#${next}`);
     if(typeof render==='function')render();
   };
@@ -67,7 +78,7 @@
       return;
     }
 
-    if(event.state?.guard){
+    if(isStandalone&&event.state?.guard){
       history.pushState({jd:true,route:'home'},'', '#home');
       if(typeof render==='function')render();
     }
