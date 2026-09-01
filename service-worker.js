@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v27-5-doll-splash';
+const CACHE_NAME='jumpdance-v28-results-editor';
 const APP_SHELL=[
   '/',
   '/index.html',
@@ -7,6 +7,8 @@ const APP_SHELL=[
   '/mobile-fit-v25.css',
   '/admin-v26.css',
   '/splash-v27.css',
+  '/home-redesign-v28.css',
+  '/results-v28.css',
   '/app.js',
   '/gallery-v25.js',
   '/navigation-v25.js',
@@ -14,6 +16,8 @@ const APP_SHELL=[
   '/username-auth-v26.js',
   '/admin-modules-v26.js',
   '/splash-v27.js',
+  '/home-redesign-v28.js',
+  '/results-v28.js',
   '/config.js',
   '/manifest.json',
   '/icons/icon-jumpdance.svg',
