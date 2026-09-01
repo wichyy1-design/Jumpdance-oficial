@@ -1,5 +1,7 @@
-JUMPDANCE OFICIAL - VERSION 25 MEJORAS
-Cambios: galería de fotos mejorada con visor sobre la misma pantalla, cerrar, descargar, anterior/siguiente y gesto de deslizamiento.
-Videos: presentación más limpia, reproducción integrada y acceso para abrir el archivo.
-PWA: caché actualizada a v25 e inclusión de los nuevos recursos de galería.
-Base visual: se mantiene el estilo Nova de la versión 24 y la lógica existente de datos/administración.
+JUMPDANCE OFICIAL - VERSION 26 ADMINISTRACIÓN
+Panel administrador: organizado por módulos, mostrando una sección por vez.
+Usuarios: el administrador principal puede crear usuarios, activarlos/desactivarlos, cambiar contraseña y habilitar módulos individualmente.
+Permisos: Portada, Inscripciones/Músicas, Fotos/Videos, Sponsors, Resultados, Novedades, Publicaciones y Mensajes.
+Notificaciones: soporte push para avisar cuando una nueva inscripción termina de cargar su música; se activa una vez desde el panel en cada dispositivo.
+Seguridad: permisos aplicados también en Supabase/RLS, no solo ocultos en la interfaz.
+Incluye además: galería v25, ajuste móvil v25.1 y navegación Atrás v25.2.
