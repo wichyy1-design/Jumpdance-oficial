@@ -1,0 +1,83 @@
+/* Jumpdance v27 - pantalla de apertura de la app */
+.jdSplash{display:none}
+.jdSplash.show{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 48%,rgba(255,79,163,.14),transparent 34%),
+    radial-gradient(circle at 50% 56%,rgba(255,205,92,.08),transparent 44%),
+    #080711;
+  color:#fff;
+}
+.jdSplashInner{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  width:min(86vw,520px);
+  text-align:center;
+  opacity:0;
+  transform:scale(.88);
+  animation:jdSplashIntro 1.42s cubic-bezier(.2,.78,.2,1) forwards;
+}
+.jdSplashMark{
+  margin-bottom:14px;
+  font-size:25px;
+  line-height:1;
+  color:#ffd56a;
+  filter:drop-shadow(0 0 16px rgba(255,213,106,.35));
+  animation:jdSplashStar 1.25s ease-out both;
+}
+.jdSplashLogo{
+  margin:0;
+  font-size:clamp(34px,10vw,64px);
+  line-height:.95;
+  font-weight:950;
+  letter-spacing:-.055em;
+  text-transform:uppercase;
+  background:linear-gradient(105deg,#ff4fa3 7%,#ff78bd 38%,#ffd66b 73%,#fff2bd 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  filter:drop-shadow(0 0 22px rgba(255,79,163,.18));
+}
+.jdSplashYear{
+  display:block;
+  margin-top:8px;
+  font-size:.48em;
+  letter-spacing:.28em;
+  padding-left:.28em;
+  color:#f5e7bd;
+  -webkit-text-fill-color:#f5e7bd;
+}
+.jdSplashLine{
+  width:0;
+  height:2px;
+  margin-top:19px;
+  border-radius:999px;
+  background:linear-gradient(90deg,transparent,#ff4fa3,#ffd66b,transparent);
+  box-shadow:0 0 16px rgba(255,79,163,.34);
+  animation:jdSplashLine 1.05s .18s ease-out forwards;
+}
+.jdSplash.hide{
+  animation:jdSplashOut .34s ease forwards;
+  pointer-events:none;
+}
+html.jdSplashActive,html.jdSplashActive body{overflow:hidden!important}
+@keyframes jdSplashIntro{
+  0%{opacity:0;transform:scale(.86);filter:blur(7px)}
+  42%{opacity:1;filter:blur(0)}
+  76%{opacity:1;transform:scale(1.035)}
+  100%{opacity:1;transform:scale(1)}
+}
+@keyframes jdSplashStar{0%{opacity:0;transform:scale(.3) rotate(-35deg)}60%{opacity:1;transform:scale(1.18) rotate(8deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes jdSplashLine{to{width:min(230px,58vw)}}
+@keyframes jdSplashOut{to{opacity:0;visibility:hidden;transform:scale(1.025)}}
+@media(prefers-reduced-motion:reduce){
+  .jdSplashInner,.jdSplashMark,.jdSplashLine{animation:none!important;opacity:1;transform:none}
+  .jdSplashLine{width:min(230px,58vw)}
+}
