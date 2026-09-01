@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v32-1-anime-video-intro';
+const CACHE_NAME='jumpdance-v33-robust-intro';
 const APP_SHELL=[
   '/',
   '/index.html',
@@ -6,11 +6,9 @@ const APP_SHELL=[
   '/gallery-v25.css',
   '/mobile-fit-v25.css',
   '/admin-v26.css',
-  '/splash-video-v32.css',
-  '/splash-video-v32-part0.js',
-  '/splash-video-v32-part1.js',
-  '/splash-video-v32-part2.js',
-  '/splash-video-v32.js',
+  '/splash-v33.css',
+  '/splash-v33.js',
+  '/splash-pro-v31.svg',
   '/home-redesign-v28.css',
   '/results-v28.css',
   '/app.js',
@@ -79,7 +77,7 @@ self.addEventListener('fetch', event => {
   if(url.hostname.includes('supabase.co'))return;
 
   if(req.mode==='navigate'){
-    event.respondWith(fetch(req).then(res=>{
+    event.respondWith(fetch(req,{cache:'no-store'}).then(res=>{
       const copy=res.clone();
       caches.open(CACHE_NAME).then(c=>c.put('/index.html',copy));
       return res;
@@ -87,11 +85,11 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  event.respondWith(caches.match(req).then(cached=>cached||fetch(req).then(res=>{
+  event.respondWith(fetch(req).then(res=>{
     if(url.origin===self.location.origin&&res.ok){
       const copy=res.clone();
       caches.open(CACHE_NAME).then(c=>c.put(req,copy));
     }
     return res;
-  })));
+  }).catch(()=>caches.match(req)));
 });
