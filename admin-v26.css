@@ -1,0 +1,25 @@
+/* Jumpdance v26 - panel administrador modular */
+.adminDashboard{margin:10px 0 18px}
+.adminDashboardHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.adminDashboardHead h3{margin:0 0 4px;font-size:21px}.adminDashboardHead p{margin:0}
+.adminModuleGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.adminModuleCard{position:relative;min-width:0;min-height:128px;padding:14px;border:1px solid #332d45;border-radius:18px;background:linear-gradient(145deg,#171322,#0e0c17);color:#fff;text-align:left;box-shadow:0 8px 24px rgba(0,0,0,.14)}
+.adminModuleCard:active{transform:scale(.985)}
+.adminModuleIcon{display:grid;place-items:center;width:42px;height:42px;margin-bottom:13px;border:1px solid #423752;border-radius:13px;background:#211a2c;font-size:22px}
+.adminModuleCard b{display:block;font-size:14px;line-height:1.2}.adminModuleCard small{display:block;margin-top:6px;color:#aaa2b7;font-size:10.5px;line-height:1.35}
+.adminModuleArrow{position:absolute;right:13px;bottom:11px;color:#81788f;font-size:22px}
+.adminModuleCard.users{border-color:rgba(255,201,76,.34)}.adminModuleCard.notifications{border-color:rgba(66,213,154,.34)}
+.adminModulePanel{display:none;animation:jdPanelIn .16s ease-out}.adminModulePanel.active{display:block}
+.adminBack{display:inline-flex;align-items:center;gap:6px;margin:8px 0 2px;padding:9px 11px;border:1px solid #393249;border-radius:11px;background:#171321;color:#eee8f4;font-weight:800}
+.adminTabs{display:none!important}
+.adminPermissionGrid{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+.adminPermission{display:flex;align-items:center;gap:10px;min-height:44px;padding:10px 11px;border:1px solid #332c43;border-radius:12px;background:#0d0b16;color:#e9e4ef;font-size:12px;font-weight:750}
+.adminPermission input{width:20px;height:20px;flex:0 0 20px;accent-color:#9b6cff}
+.adminUserCard{display:grid;gap:11px}.adminUserHeader{display:flex;align-items:center;justify-content:space-between;gap:10px}.adminUserName{min-width:0}.adminUserName b{display:block;font-size:17px}.adminUserName small{display:block;margin-top:3px;color:#aaa2b7;overflow-wrap:anywhere}
+.adminOwnerBadge,.adminActiveBadge{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:900;white-space:nowrap}.adminOwnerBadge{background:rgba(255,201,76,.11);border:1px solid rgba(255,201,76,.28);color:#ffd873}.adminActiveBadge{background:rgba(66,213,154,.10);border:1px solid rgba(66,213,154,.25);color:#82e6bc}
+.adminUserActions{display:flex;gap:8px;flex-wrap:wrap}.adminUserActions .btn{flex:1;min-width:120px}
+.adminNoticeCard{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.adminNoticeCard>div{min-width:0}.adminNoticeCard h3{margin:0 0 4px}.adminNoticeCard p{margin:0}.adminNoticeCard .btn{flex:0 0 auto}
+.adminEmpty{padding:18px;text-align:center}
+@keyframes jdPanelIn{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media(min-width:620px){.adminModuleGrid{grid-template-columns:repeat(4,minmax(0,1fr))}.adminPermissionGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:380px){.adminModuleGrid{grid-template-columns:1fr}.adminNoticeCard{align-items:stretch;flex-direction:column}.adminNoticeCard .btn{width:100%}}
