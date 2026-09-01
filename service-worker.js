@@ -1,9 +1,11 @@
-const CACHE_NAME='jumpdance-v24-estilo-nova';
+const CACHE_NAME='jumpdance-v25-galeria';
 const APP_SHELL=[
   '/',
   '/index.html',
   '/styles.css',
+  '/gallery-v25.css',
   '/app.js',
+  '/gallery-v25.js',
   '/config.js',
   '/manifest.json',
   '/icons/icon-192.png',
@@ -32,7 +34,6 @@ self.addEventListener('fetch', event => {
   if (req.method !== 'GET') return;
 
   const url = new URL(req.url);
-  // Never cache Supabase API/storage/auth traffic.
   if (url.hostname.includes('supabase.co')) return;
 
   if (req.mode === 'navigate') {
