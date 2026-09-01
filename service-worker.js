@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v26-2-admin-permissions';
+const CACHE_NAME='jumpdance-v27-splash';
 const APP_SHELL=[
   '/',
   '/index.html',
@@ -6,12 +6,14 @@ const APP_SHELL=[
   '/gallery-v25.css',
   '/mobile-fit-v25.css',
   '/admin-v26.css',
+  '/splash-v27.css',
   '/app.js',
   '/gallery-v25.js',
   '/navigation-v25.js',
   '/admin-v26.js',
   '/username-auth-v26.js',
   '/admin-modules-v26.js',
+  '/splash-v27.js',
   '/config.js',
   '/manifest.json',
   '/icons/icon-192.png',
