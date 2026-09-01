@@ -19,10 +19,10 @@
     splash.classList.add('hide');
     document.documentElement.classList.remove('jdSplashActive');
     document.documentElement.classList.remove('jdBootSplash');
-    setTimeout(()=>splash.remove(),520);
+    setTimeout(()=>splash.remove(),500);
   };
 
   const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
-  // Ritmo más cinematográfico: entrada, gesto/destello, marca y fundido.
-  setTimeout(close,reduced?1100:2950);
+  // Entrada de muñeca, saludo, destello, JUMPDANCE, pausa y fundido.
+  setTimeout(close,reduced?1250:3250);
 })();
