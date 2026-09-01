@@ -1,0 +1,98 @@
+/* Jumpdance v31 - intro profesional magical-girl */
+.jdSplash.show{
+  background:
+    radial-gradient(circle at 50% 34%,rgba(255,74,170,.16),transparent 30%),
+    radial-gradient(circle at 50% 66%,rgba(137,88,255,.10),transparent 34%),
+    linear-gradient(180deg,#020205 0%,#07030c 48%,#050208 100%)!important;
+}
+.jdSplash.show::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 18% 22%,rgba(255,255,255,.9) 0 1px,transparent 2px),
+    radial-gradient(circle at 78% 16%,rgba(255,216,107,.8) 0 1px,transparent 2px),
+    radial-gradient(circle at 84% 42%,rgba(255,79,163,.8) 0 1px,transparent 2px),
+    radial-gradient(circle at 24% 56%,rgba(255,255,255,.55) 0 1px,transparent 2px);
+  background-size:180px 180px,220px 220px,210px 210px,250px 250px;
+  opacity:.42;
+  animation:jdProStars 3.25s ease-in-out both;
+}
+.jdSplashScene{
+  width:min(96vw,560px)!important;
+  min-height:min(88vh,760px)!important;
+  justify-content:center!important;
+}
+.jdMagicalCharacter,
+.jdSplashCharacter{display:none!important}
+.jdProCharacter{
+  position:relative;
+  z-index:2;
+  width:clamp(270px,75vw,430px);
+  margin-top:-5vh;
+  filter:drop-shadow(0 24px 42px rgba(0,0,0,.5));
+}
+.jdProCharacter img{
+  display:block;
+  width:100%;
+  height:auto;
+  transform-origin:50% 60%;
+  animation:jdProFloat 3.2s ease-in-out both;
+}
+.jdProCharacter::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:45%;
+  width:82%;
+  aspect-ratio:1;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  border:1.5px solid rgba(255,84,171,.42);
+  box-shadow:0 0 34px rgba(255,79,163,.12),inset 0 0 30px rgba(255,201,76,.05);
+  animation:jdProRing 3.2s ease-in-out both;
+}
+.jdProCharacter .jdSplashFlash{
+  left:79%!important;
+  top:16%!important;
+  animation:jdFlash .6s 2.18s ease-out forwards!important;
+}
+.jdSplashBrandWrap{
+  margin-top:clamp(-55px,-8vw,-28px)!important;
+  opacity:0;
+  animation:jdBrandReveal .74s 2.4s cubic-bezier(.16,.82,.24,1) forwards!important;
+}
+.jdSplashLogo{
+  font-size:clamp(36px,10vw,62px)!important;
+  letter-spacing:-.045em!important;
+  background:linear-gradient(100deg,#ff4fa3 8%,#ff7bbd 34%,#ffc94c 67%,#fff0a3 100%)!important;
+  -webkit-background-clip:text!important;
+  background-clip:text!important;
+  color:transparent!important;
+  filter:drop-shadow(0 0 16px rgba(255,79,163,.18))!important;
+}
+.jdSplashLine{animation:jdLine .5s 2.75s ease-out forwards!important}
+.jdSplash.hide{animation:jdSplashOut .42s ease forwards!important}
+@keyframes jdProFloat{
+  0%{opacity:0;transform:translateY(28px) scale(.96);filter:blur(7px)}
+  18%{opacity:1;filter:blur(0)}
+  40%{transform:translateY(-3px) scale(1)}
+  68%{transform:translateY(-5px) scale(1.005)}
+  100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+}
+@keyframes jdProRing{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.86) rotate(-8deg)}
+  30%{opacity:.7}
+  65%{opacity:.45;transform:translate(-50%,-50%) scale(1.03) rotate(3deg)}
+  100%{opacity:.28;transform:translate(-50%,-50%) scale(1) rotate(0)}
+}
+@keyframes jdProStars{0%{opacity:.1}45%{opacity:.5}100%{opacity:.28}}
+@media(max-height:680px){
+  .jdProCharacter{width:clamp(235px,65vw,340px);margin-top:-9vh}
+  .jdSplashBrandWrap{margin-top:-42px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .jdProCharacter img,.jdProCharacter::before{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}
+  .jdSplashBrandWrap{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}
+}
