@@ -29,19 +29,87 @@ html.jdBootSplash #jdSplash{display:grid!important;position:fixed!important;inse
 <link rel="stylesheet" href="mobile-fit-v25.css">
 <link rel="stylesheet" href="admin-v26.css">
 <link rel="stylesheet" href="splash-v27.css?v=27.5">
-<link rel="stylesheet" href="splash-anime-v29.css?v=29">
+<link rel="stylesheet" href="splash-magical-v30.css?v=30">
 <link rel="stylesheet" href="home-redesign-v28.css?v=28">
 <link rel="stylesheet" href="results-v28.css?v=28">
 </head>
 <body>
 <div id="jdSplash" class="jdSplash" aria-hidden="true">
   <div class="jdSplashScene">
-    <div class="jdSplashCharacter" aria-hidden="true">
-      <div class="jdSplashCharacterBody"></div>
-      <div class="jdSplashCharacterArm"></div>
-      <div class="jdSplashCharacterArmUpper"></div>
-      <div class="jdSplashCharacterForearm"></div>
-      <div class="jdSplashCharacterHand"></div>
+    <div class="jdMagicalCharacter" aria-hidden="true">
+      <svg class="jdMagicalGirl" viewBox="0 0 320 430" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="jdHair" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0a2"/><stop offset=".45" stop-color="#ffd557"/><stop offset="1" stop-color="#e6a82d"/></linearGradient>
+          <linearGradient id="jdSkin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff1e6"/><stop offset="1" stop-color="#f2bca7"/></linearGradient>
+          <linearGradient id="jdUniform" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#272356"/><stop offset="1" stop-color="#14112f"/></linearGradient>
+          <linearGradient id="jdPink" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff83bf"/><stop offset="1" stop-color="#ff3f98"/></linearGradient>
+          <filter id="jdGlow"><feGaussianBlur stdDeviation="3.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+
+        <g class="jdMagicalGlow" filter="url(#jdGlow)">
+          <circle cx="160" cy="205" r="122" fill="none" stroke="#ff59ad" stroke-width="3" opacity=".7"/>
+          <path d="M70 200a90 90 0 1 0 145-71a100 100 0 1 1-145 71Z" fill="#ff72bd" opacity=".13"/>
+        </g>
+
+        <g class="jdMagicalSpark1" fill="#ffe88a"><path d="M56 90l4 10l10 4l-10 4l-4 10l-4-10l-10-4l10-4z"/></g>
+        <g class="jdMagicalSpark2" fill="#ff72bd"><path d="M265 147l3 8l8 3l-8 3l-3 8l-3-8l-8-3l8-3z"/></g>
+        <g class="jdMagicalSpark3" fill="#fff"><path d="M252 56l3 7l7 3l-7 3l-3 7l-3-7l-7-3l7-3z"/></g>
+
+        <g class="jdMagicalBody">
+          <g class="jdHairTailLeft">
+            <path d="M112 96C82 110 61 139 55 183C48 230 62 281 40 330C79 309 101 265 105 218C108 178 99 137 124 112Z" fill="url(#jdHair)" stroke="#c78c26" stroke-width="3"/>
+          </g>
+          <g class="jdHairTailRight">
+            <path d="M208 96C239 109 263 139 269 181C277 228 262 279 285 327C245 310 222 266 216 218C212 177 222 138 196 111Z" fill="url(#jdHair)" stroke="#c78c26" stroke-width="3"/>
+          </g>
+
+          <circle cx="116" cy="84" r="25" fill="url(#jdHair)" stroke="#c78c26" stroke-width="3"/>
+          <circle cx="204" cy="84" r="25" fill="url(#jdHair)" stroke="#c78c26" stroke-width="3"/>
+          <circle cx="116" cy="84" r="8" fill="#ff5fa9" opacity=".9"/>
+          <circle cx="204" cy="84" r="8" fill="#ff5fa9" opacity=".9"/>
+
+          <ellipse cx="160" cy="145" rx="52" ry="58" fill="url(#jdSkin)" stroke="#d69c86" stroke-width="2.2"/>
+          <path d="M110 137C111 95 131 75 160 74C193 74 213 98 211 139C195 118 179 110 160 108C142 107 127 116 110 137Z" fill="url(#jdHair)" stroke="#c78c26" stroke-width="2.5"/>
+          <path d="M123 119C134 104 144 101 154 100C148 113 143 123 138 133Z" fill="#f8c64c"/>
+          <path d="M197 119C187 104 177 101 166 100C172 113 177 123 182 133Z" fill="#f8c64c"/>
+
+          <ellipse cx="141" cy="151" rx="9" ry="13" fill="#2f5fbe"/>
+          <ellipse cx="141" cy="148" rx="3" ry="5" fill="#fff"/>
+          <ellipse class="jdEyeRightOpen" cx="181" cy="151" rx="9" ry="13" fill="#2f5fbe"/>
+          <ellipse class="jdEyeRightOpen" cx="181" cy="148" rx="3" ry="5" fill="#fff"/>
+          <path class="jdEyeRightWink" d="M171 152Q181 160 191 151" fill="none" stroke="#6b3c47" stroke-width="3" stroke-linecap="round"/>
+          <path d="M150 176Q160 184 171 175" fill="none" stroke="#d65c78" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="128" cy="169" r="6" fill="#ff8ea9" opacity=".32"/>
+          <circle cx="194" cy="169" r="6" fill="#ff8ea9" opacity=".32"/>
+
+          <rect x="151" y="194" width="18" height="22" rx="8" fill="url(#jdSkin)"/>
+          <path d="M115 221Q160 202 205 221L216 295Q160 314 104 295Z" fill="url(#jdUniform)" stroke="#443f83" stroke-width="2"/>
+          <path d="M122 218L160 245L198 218L190 246L160 257L130 246Z" fill="#fff6ff"/>
+          <path d="M137 244L160 255L183 244L176 268L160 259L144 268Z" fill="url(#jdPink)"/>
+          <circle cx="160" cy="255" r="7" fill="#ffd56a" stroke="#a87316" stroke-width="2"/>
+          <path d="M112 293L208 293L227 328Q160 348 93 328Z" fill="url(#jdPink)" stroke="#c42d79" stroke-width="2.2"/>
+          <path d="M126 327L118 390" stroke="#f2bca7" stroke-width="22" stroke-linecap="round"/>
+          <path d="M194 327L202 390" stroke="#f2bca7" stroke-width="22" stroke-linecap="round"/>
+          <path d="M108 389Q121 380 135 389L136 408H102Z" fill="#fff" stroke="#ff63ad" stroke-width="3"/>
+          <path d="M185 389Q199 380 213 389L219 408H183Z" fill="#fff" stroke="#ff63ad" stroke-width="3"/>
+          <path d="M111 230Q85 245 81 279" fill="none" stroke="#f2bca7" stroke-width="18" stroke-linecap="round"/>
+          <circle cx="80" cy="286" r="10" fill="url(#jdSkin)"/>
+
+          <path d="M138 76L160 60L182 76L171 83L160 78L149 83Z" fill="#ffd75e" stroke="#b77b18" stroke-width="2"/>
+          <circle cx="160" cy="70" r="5" fill="#ff57a6"/>
+        </g>
+
+        <g class="jdUpperArm">
+          <path d="M205 214Q214 193 226 174Q233 163 241 154" fill="none" stroke="#f2bca7" stroke-width="20" stroke-linecap="round"/>
+          <g class="jdForeArm">
+            <path d="M241 154Q248 136 251 111Q252 102 253 95" fill="none" stroke="#f2bca7" stroke-width="18" stroke-linecap="round"/>
+            <g class="jdWaveHand">
+              <ellipse cx="253" cy="91" rx="11" ry="13" fill="url(#jdSkin)"/>
+              <path d="M249 88L241 72M252 86L249 67M255 86L257 67M258 88L265 72M260 91L271 81" stroke="#f2bca7" stroke-width="5.5" stroke-linecap="round"/>
+            </g>
+          </g>
+        </g>
+      </svg>
       <div class="jdSplashFlash"></div>
     </div>
     <div class="jdSplashBrandWrap">
@@ -50,7 +118,7 @@ html.jdBootSplash #jdSplash{display:grid!important;position:fixed!important;inse
     </div>
   </div>
 </div>
-<script src="splash-v27.js?v=29"></script>
+<script src="splash-v27.js?v=30"></script>
 
 <header class="topbar">
   <button id="menuBtn" class="iconBtn">☰</button>
