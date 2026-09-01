@@ -4,8 +4,6 @@
   const appLike=standalone||isAndroid;
   const splash=document.getElementById('jdSplash');
 
-  // El wrapper Android no siempre reporta display-mode: standalone.
-  // En Android mostramos igualmente la intro para que se vea dentro del APK.
   if(!appLike){
     document.documentElement.classList.remove('jdBootSplash');
     splash?.remove();
@@ -20,6 +18,7 @@
   const fallback=document.getElementById('jdIntroFallback');
   let objectUrl=null;
   let closed=false;
+  let started=false;
 
   document.documentElement.classList.add('jdSplashActive');
   splash.classList.add('show','jdVideoSplash');
@@ -38,18 +37,13 @@
 
   const showFallback=()=>{
     fallback?.classList.add('show');
-    setTimeout(close,850);
+    setTimeout(close,900);
   };
-
-  const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
-  if(reduced){
-    showFallback();
-    return;
-  }
 
   try{
     const parts=window.JD_INTRO_PARTS||[];
     if(parts.length<3||!parts[0]||!parts[1]||!parts[2])throw new Error('Video incompleto');
+
     const b64=parts.join('');
     const raw=atob(b64);
     const bytes=new Uint8Array(raw.length);
@@ -57,22 +51,44 @@
     objectUrl=URL.createObjectURL(new Blob([bytes],{type:'video/mp4'}));
 
     video.muted=true;
+    video.defaultMuted=true;
+    video.autoplay=true;
     video.playsInline=true;
+    video.setAttribute('muted','');
+    video.setAttribute('autoplay','');
+    video.setAttribute('playsinline','');
+    video.preload='auto';
     video.src=objectUrl;
+
     video.addEventListener('ended',close,{once:true});
     video.addEventListener('error',showFallback,{once:true});
 
     const start=()=>{
+      if(started||closed)return;
+      started=true;
+      try{video.currentTime=0}catch{}
       const p=video.play();
-      if(p?.catch)p.catch(showFallback);
+      if(p?.catch){
+        p.catch(()=>{
+          started=false;
+          setTimeout(()=>{
+            if(closed)return;
+            const retry=video.play();
+            if(retry?.catch)retry.catch(showFallback);
+          },120);
+        });
+      }
     };
-    if(video.readyState>=2)start();
-    else video.addEventListener('canplay',start,{once:true});
 
-    // Seguridad: la intro nunca bloquea el acceso a la app.
-    setTimeout(close,3800);
+    video.addEventListener('loadeddata',start,{once:true});
+    video.addEventListener('canplay',start,{once:true});
+    video.load();
+    if(video.readyState>=2)requestAnimationFrame(start);
+
+    // Nunca dejar la app bloqueada si el WebView/TWA demora o rechaza reproducción.
+    setTimeout(close,4600);
   }catch(e){
-    console.warn('No se pudo reproducir la intro de video',e);
+    console.warn('No se pudo reproducir la intro de Jumpdance',e);
     showFallback();
   }
 })();
