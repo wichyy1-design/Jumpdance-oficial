@@ -1,10 +1,11 @@
-JUMPDANCE OFICIAL - VERSION 27 APERTURA DE APP
-Pantalla de apertura: al abrir Jumpdance como app instalada aparece una presentación breve con fondo oscuro, JUMPDANCE 2026, brillo/zoom suave y fundido hacia la app.
-La pantalla de apertura no se repite al navegar entre secciones.
+JUMPDANCE OFICIAL - VERSION 27.5 APERTURA E ICONO
+Ícono: Jumpdance usa el nuevo diseño con la muñeca y la marca JUMPDANCE, sin año en el nombre del ícono para que no quede desactualizado.
+Pantalla de apertura: al abrir Jumpdance como app instalada se muestra primero un fondo oscuro; entra la muñeca, hace un saludo con el brazo levantado, aparece un destello y luego se revela JUMPDANCE debajo de ella.
+Duración: aproximadamente 3,25 segundos más el fundido final, con ritmo más cinematográfico.
+La presentación no vuelve a mostrar el ícono ampliado dentro de la app y no se repite al navegar entre secciones.
 Panel administrador: organizado por módulos, mostrando una sección por vez.
 Usuarios: acceso con Usuario + Contraseña, sin pedir correo; el administrador principal puede crear usuarios, activarlos/desactivarlos, cambiar contraseña y habilitar módulos individualmente.
 Permisos: Portada, Inscripciones/Músicas, Fotos/Videos, Sponsors, Resultados, Novedades, Publicaciones y Mensajes.
-Permisos independientes: cada usuario puede entrar solamente a los módulos habilitados sin depender de tener acceso a Inscripciones.
-Notificaciones: soporte push para avisar cuando una nueva inscripción termina de cargar su música; se activa una vez desde el panel en cada dispositivo autorizado.
-Seguridad: permisos aplicados también en Supabase/RLS y Storage, no solo ocultos en la interfaz.
-Incluye además: galería v25, ajuste móvil v25.1 y navegación Atrás v25.2.
+Permisos independientes: cada usuario puede entrar solamente a los módulos habilitados.
+Notificaciones: soporte push para avisar cuando una nueva inscripción termina de cargar su música.
+Seguridad: permisos aplicados también en Supabase/RLS y Storage.
