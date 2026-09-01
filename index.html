@@ -55,8 +55,15 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
+<script>
+window.JD_RESTORE_ADMIN_ROUTE=location.hash==='#admin';
+if(window.JD_RESTORE_ADMIN_ROUTE)history.replaceState(history.state,'','#home');
+</script>
 <script src="app.js"></script>
 <script src="gallery-v25.js"></script>
+<script>
+if(window.JD_RESTORE_ADMIN_ROUTE)history.replaceState(history.state,'','#admin');
+</script>
 <script src="navigation-v25.js"></script>
 <script src="admin-v26.js"></script>
 
