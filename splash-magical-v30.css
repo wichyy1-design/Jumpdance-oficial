@@ -1,0 +1,123 @@
+/* Jumpdance v30 - magical girl original, saludo natural */
+.jdMagicalCharacter{
+  position:relative;
+  width:clamp(250px,74vw,390px);
+  height:auto;
+  margin-top:-4vh;
+  opacity:0;
+  transform:translateY(30px) scale(.92);
+  animation:jdMagicalEnter .72s .18s cubic-bezier(.16,.82,.24,1) forwards;
+  filter:drop-shadow(0 22px 36px rgba(0,0,0,.42));
+}
+.jdMagicalGirl{display:block;width:100%;height:auto;overflow:visible}
+.jdMagicalGlow{
+  opacity:.65;
+  transform-origin:160px 215px;
+  animation:jdMoonGlow 3.5s .2s ease-in-out both;
+}
+.jdMagicalBody{
+  transform-origin:160px 230px;
+  animation:jdBodyBreath 3.05s .62s ease-in-out both;
+}
+.jdHairTailLeft{transform-origin:94px 108px;animation:jdHairLeft 2.45s .72s ease-in-out both}
+.jdHairTailRight{transform-origin:226px 108px;animation:jdHairRight 2.35s .72s ease-in-out both}
+.jdUpperArm{
+  transform-origin:211px 189px;
+  animation:jdLiftArm 1.08s .7s cubic-bezier(.22,.02,.16,1) both;
+}
+.jdForeArm{
+  transform-origin:235px 150px;
+  animation:jdBendElbow 1.18s .76s cubic-bezier(.22,.02,.16,1) both;
+}
+.jdWaveHand{
+  transform-origin:252px 96px;
+  animation:jdNaturalWave 1.22s 1.12s cubic-bezier(.3,.03,.16,1) both;
+}
+.jdEyeRightOpen{transform-origin:187px 151px;animation:jdEyeBlink 2.05s 1.15s ease both}
+.jdEyeRightWink{opacity:0;animation:jdWink 2.05s 1.15s ease both}
+.jdMagicalSpark1{animation:jdSparkle 1.45s .55s ease-in-out infinite alternate}
+.jdMagicalSpark2{animation:jdSparkle 1.25s .82s ease-in-out infinite alternate}
+.jdMagicalSpark3{animation:jdSparkle 1.65s .38s ease-in-out infinite alternate}
+
+/* Flash después del saludo. */
+.jdMagicalCharacter .jdSplashFlash{
+  left:79%;
+  top:17%;
+  animation:jdFlash .62s 2.36s ease-out forwards!important;
+}
+.jdSplashBrandWrap{
+  margin-top:clamp(-36px,-7vw,-20px)!important;
+  animation:jdBrandReveal .88s 2.62s cubic-bezier(.16,.82,.24,1) forwards!important;
+}
+.jdSplashLine{animation:jdLine .58s 3.02s ease-out forwards!important}
+
+@keyframes jdMagicalEnter{
+  0%{opacity:0;transform:translateY(30px) scale(.92);filter:blur(7px)}
+  55%{opacity:1;filter:blur(0)}
+  100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+}
+@keyframes jdMoonGlow{
+  0%{opacity:.18;transform:scale(.9) rotate(-8deg)}
+  48%{opacity:.72;transform:scale(1.03) rotate(2deg)}
+  100%{opacity:.5;transform:scale(1) rotate(0)}
+}
+@keyframes jdBodyBreath{
+  0%{transform:translateY(0) rotate(0)}
+  28%{transform:translateY(-3px) rotate(-.45deg)}
+  58%{transform:translateY(-5px) rotate(.35deg)}
+  100%{transform:translateY(0) rotate(0)}
+}
+@keyframes jdHairLeft{
+  0%{transform:rotate(1deg)}
+  36%{transform:rotate(-4deg)}
+  72%{transform:rotate(3deg)}
+  100%{transform:rotate(0)}
+}
+@keyframes jdHairRight{
+  0%{transform:rotate(-1deg)}
+  35%{transform:rotate(4.5deg)}
+  70%{transform:rotate(-3deg)}
+  100%{transform:rotate(0)}
+}
+@keyframes jdLiftArm{
+  0%{transform:rotate(42deg)}
+  28%{transform:rotate(24deg)}
+  58%{transform:rotate(4deg)}
+  78%{transform:rotate(-2deg)}
+  100%{transform:rotate(0)}
+}
+@keyframes jdBendElbow{
+  0%{transform:rotate(28deg)}
+  42%{transform:rotate(10deg)}
+  72%{transform:rotate(-4deg)}
+  100%{transform:rotate(0)}
+}
+@keyframes jdNaturalWave{
+  0%{transform:rotate(-2deg)}
+  13%{transform:rotate(18deg)}
+  28%{transform:rotate(-17deg)}
+  44%{transform:rotate(19deg)}
+  60%{transform:rotate(-15deg)}
+  76%{transform:rotate(14deg)}
+  90%{transform:rotate(-7deg)}
+  100%{transform:rotate(0)}
+}
+@keyframes jdEyeBlink{
+  0%,37%,58%,100%{opacity:1;transform:scaleY(1)}
+  43%,52%{opacity:0;transform:scaleY(.08)}
+}
+@keyframes jdWink{
+  0%,37%,58%,100%{opacity:0}
+  43%,52%{opacity:1}
+}
+@keyframes jdSparkle{from{opacity:.25;transform:scale(.7)}to{opacity:1;transform:scale(1.28)}}
+
+@media(max-height:660px){
+  .jdMagicalCharacter{width:clamp(215px,64vw,315px);margin-top:-8vh}
+  .jdSplashBrandWrap{margin-top:-28px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .jdMagicalCharacter{animation:none!important;opacity:1;transform:none;filter:none}
+  .jdMagicalBody,.jdHairTailLeft,.jdHairTailRight,.jdUpperArm,.jdForeArm,.jdWaveHand,.jdEyeRightOpen,.jdEyeRightWink,.jdMagicalGlow{animation:none!important}
+  .jdEyeRightOpen{opacity:1!important}.jdEyeRightWink{opacity:0!important}
+}
