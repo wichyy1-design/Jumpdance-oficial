@@ -23,6 +23,6 @@
   };
 
   const reduced=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
-  // Entrada de muñeca, saludo, destello, JUMPDANCE, pausa y fundido.
-  setTimeout(close,reduced?1250:3250);
+  // Entrada, saludo anime articulado, destello, marca, pausa y fundido.
+  setTimeout(close,reduced?1250:3650);
 })();
