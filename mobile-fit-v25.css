@@ -1,0 +1,37 @@
+/* Jumpdance v25.1 - ajuste móvil: evita zoom/desplazamiento lateral de toda la app */
+html,body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+  overscroll-behavior-x:none;
+}
+body{
+  touch-action:pan-y;
+}
+main,.topbar,.bottomNav{
+  width:100%;
+  max-width:100vw;
+}
+main{
+  overflow-x:hidden;
+}
+img,video,canvas,svg{
+  max-width:100%;
+}
+.homeWelcome,.heroCard,.editableHero,.quickGrid,.winnerBanner,.card,.sectionHeader,.sectionTitle{
+  max-width:100%;
+  min-width:0;
+}
+.homeWelcome>div:first-child{
+  min-width:0;
+  flex:1;
+}
+.homeWelcome h1,.homeWelcome p{
+  overflow-wrap:anywhere;
+}
+.bottomNav{
+  overflow:hidden;
+}
+.bottomNav button{
+  min-width:0;
+}
