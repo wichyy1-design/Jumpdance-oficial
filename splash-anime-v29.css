@@ -1,0 +1,104 @@
+/* Jumpdance v29 - saludo anime articulado y mas humano */
+.jdSplashCharacter{
+  transform-style:preserve-3d;
+  will-change:transform,opacity;
+}
+
+/* La capa antigua movia todo el brazo de una sola pieza. */
+.jdSplashCharacterArm{display:none!important}
+
+.jdSplashCharacterArmUpper,
+.jdSplashCharacterForearm,
+.jdSplashCharacterHand{
+  position:absolute;
+  inset:0;
+  background:url('/icons/icon-jumpdance.svg?v=29') center/100% 100% no-repeat;
+  pointer-events:none;
+  will-change:transform;
+}
+
+/* Hombro -> codo */
+.jdSplashCharacterArmUpper{
+  clip-path:polygon(55% 47%,58% 37%,62% 29%,68% 23%,73% 25%,70% 34%,66% 43%,62% 53%);
+  transform-origin:59% 46%;
+  animation:jdAnimeUpperArm 1.42s .66s cubic-bezier(.25,.02,.18,1) both;
+}
+
+/* Codo -> muñeca: se pliega claramente para que el saludo no se vea rigido. */
+.jdSplashCharacterForearm{
+  clip-path:polygon(66% 31%,70% 22%,75% 14%,81% 8%,87% 7%,87% 14%,82% 22%,76% 31%,70% 40%,65% 40%);
+  transform-origin:69% 33%;
+  animation:jdAnimeForearm 1.42s .66s cubic-bezier(.22,.02,.16,1) both;
+}
+
+/* Mano independiente: pequeño vaiven de muñeca/dedos. */
+.jdSplashCharacterHand{
+  clip-path:polygon(82% 14%,86% 6%,90% 1%,95% 4%,96% 10%,92% 17%,87% 20%,83% 18%);
+  transform-origin:86% 14%;
+  animation:jdAnimeHand 1.12s .96s cubic-bezier(.3,.03,.16,1) both;
+}
+
+/* El torso acompaña el gesto con un balanceo minimo. */
+.jdSplashCharacterBody{
+  animation:jdAnimeBody 2.65s .62s cubic-bezier(.36,.02,.24,1) both!important;
+}
+
+/* El destello sale de la mano al terminar el saludo. */
+.jdSplashFlash{
+  left:90%;
+  top:9%;
+  animation:jdFlash .62s 1.72s ease-out forwards!important;
+}
+
+.jdSplashBrandWrap{
+  animation:jdBrandReveal .92s 2.02s cubic-bezier(.16,.82,.24,1) forwards!important;
+}
+.jdSplashLine{
+  animation:jdLine .62s 2.46s ease-out forwards!important;
+}
+
+@keyframes jdAnimeUpperArm{
+  0%{transform:rotate(-8deg)}
+  18%{transform:rotate(8deg)}
+  42%{transform:rotate(13deg)}
+  74%{transform:rotate(10deg)}
+  100%{transform:rotate(5deg)}
+}
+
+@keyframes jdAnimeForearm{
+  0%{transform:rotate(-28deg)}
+  20%{transform:rotate(8deg)}
+  39%{transform:rotate(18deg)}
+  55%{transform:rotate(8deg)}
+  71%{transform:rotate(19deg)}
+  87%{transform:rotate(10deg)}
+  100%{transform:rotate(14deg)}
+}
+
+@keyframes jdAnimeHand{
+  0%{transform:rotate(-14deg)}
+  18%{transform:rotate(18deg)}
+  34%{transform:rotate(-15deg)}
+  50%{transform:rotate(19deg)}
+  66%{transform:rotate(-12deg)}
+  82%{transform:rotate(13deg)}
+  100%{transform:rotate(2deg)}
+}
+
+@keyframes jdAnimeBody{
+  0%{transform:translateY(0) rotate(0)}
+  20%{transform:translateY(-3px) rotate(-.8deg)}
+  46%{transform:translateY(-5px) rotate(.55deg)}
+  72%{transform:translateY(-2px) rotate(-.25deg)}
+  100%{transform:translateY(0) rotate(0)}
+}
+
+@media(max-height:660px){
+  .jdSplashFlash{top:8%}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .jdSplashCharacterArmUpper,
+  .jdSplashCharacterForearm,
+  .jdSplashCharacterHand{animation:none!important;transform:none!important}
+}
