@@ -82,6 +82,10 @@
       refresh();
       enterFullscreen(v);
     },
+    openUrl(url){
+      const i=state.items.findIndex(x=>x.url===url);
+      if(i>=0)JDGallery.open(i);
+    },
     close(){
       const v=document.getElementById('photoViewer');
       if(v)v.classList.add('hidden');
@@ -139,7 +143,7 @@
     const items=await list('Photos','photo');
     JDGallery.setItems(items);
     if(!items.length)return `<div class="sectionTitle"><h2>📸 Fotos</h2></div><div class="card muted">Todavía no hay contenido.</div>`;
-    return `<div class="sectionTitle"><h2>📸 Fotos</h2><span class="sectionBadge">${items.length} ${items.length===1?'foto':'fotos'}</span></div><div class="mediaGrid photoGridV25">${items.map((x,i)=>`<button class="galleryPhotoCard" data-url="${esc(x.url)}" onclick="JDGallery.open(${i})"><img loading="lazy" decoding="async" src="${esc(x.url)}" alt="Foto de Jumpdance ${i+1}" onerror="JDGallery.thumbnailError(this)"><span class="galleryPhotoZoom">⌕</span></button>`).join('')}</div>`;
+    return `<div class="sectionTitle"><h2>📸 Fotos</h2><span class="sectionBadge">${items.length} ${items.length===1?'foto':'fotos'}</span></div><div class="mediaGrid photoGridV25">${items.map((x,i)=>`<button class="galleryPhotoCard" data-url="${esc(x.url)}" onclick="JDGallery.openUrl(this.dataset.url)"><img loading="lazy" decoding="async" src="${esc(x.url)}" alt="Foto de Jumpdance ${i+1}" onerror="JDGallery.thumbnailError(this)"><span class="galleryPhotoZoom">⌕</span></button>`).join('')}</div>`;
   };
 
   window.videos=async function(){
