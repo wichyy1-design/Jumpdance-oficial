@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v45-gallery-no-native-fullscreen';
+const CACHE_NAME='jumpdance-v49-publicidad-novedades';
 const APP_SHELL=[
   '/',
   '/index.html',
@@ -16,7 +16,7 @@ const APP_SHELL=[
   '/app.js',
   '/gallery-v42.js?v=42',
   '/gallery-fullscreen-fix-v45.js?v=45',
-  '/navigation-v25.js?v=42',
+  '/navigation-v25.js?v=49',
   '/admin-v26.js',
   '/username-auth-v26.js',
   '/admin-modules-v26.js',
@@ -27,11 +27,14 @@ const APP_SHELL=[
   '/registration-submit-guard-v36.js?v=36',
   '/coreo-number-v37.js?v=37',
   '/enhancements-v42.js?v=42',
+  '/news-publications-v46.js?v=46',
   '/photo-order-public-v43.js?v=43',
   '/photo-admin-v43.js?v=43',
   '/photo-batch-upload-v44.js?v=44',
+  '/admin-media-tabs-v48.js?v=48',
+  '/publicity-news-v49.js?v=49',
   '/config.js',
-  '/manifest.json?v=45',
+  '/manifest.json?v=49',
   '/icons/icon-jumpdance.svg',
   '/icons/icon-jumpdance-maskable.svg',
   '/icons/icon-192.png',
