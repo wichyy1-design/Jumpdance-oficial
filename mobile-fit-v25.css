@@ -1,4 +1,4 @@
-/* Jumpdance v25.2 - ajuste móvil general + inscripción responsive */
+/* Jumpdance v25.3 - responsive general para teléfonos y tablets */
 html,body{
   width:100%;
   max-width:100%;
@@ -13,21 +13,46 @@ main,.topbar,.bottomNav{
   max-width:100vw;
 }
 main{
+  max-width:min(100%,1100px);
   overflow-x:hidden;
+  padding:clamp(12px,2.7vw,24px) clamp(12px,3vw,22px) calc(22px + env(safe-area-inset-bottom));
 }
 img,video,canvas,svg{
   max-width:100%;
 }
-.homeWelcome,.heroCard,.editableHero,.quickGrid,.winnerBanner,.card,.sectionHeader,.sectionTitle{
+.homeWelcome,.heroCard,.editableHero,.quickGrid,.winnerBanner,.card,.sectionHeader,.sectionTitle,.warning,.success,.list,.messageCard{
   max-width:100%;
   min-width:0;
 }
-.homeWelcome>div:first-child{
-  min-width:0;
-  flex:1;
+.homeWelcome{
+  align-items:flex-start;
+  gap:clamp(12px,2.2vw,18px);
 }
-.homeWelcome h1,.homeWelcome p{
+.homeWelcome>div:first-child,
+.brandBlock,
+.grow,
+.card,
+.field,
+.sectionHeader>*,
+.sectionTitle>*{
+  min-width:0;
+}
+.homeWelcome h1,.homeWelcome p,.sectionHeader h2,.sectionTitle h2,.sectionTitle h3,.brand,.brandBlock small,.muted,.warning,.success,
+.field label,.field input,.field select,.field textarea,.upload,.infoPill,.quickCard h3,.quickCard p{
   overflow-wrap:anywhere;
+}
+.topbar{
+  padding-inline:clamp(12px,2.8vw,20px);
+  gap:clamp(8px,2vw,14px);
+}
+.brand{
+  font-size:clamp(18px,2.2vw,20px);
+}
+.brandBlock small{
+  font-size:clamp(9px,1.2vw,10px);
+}
+.iconBtn{
+  flex:0 0 42px;
 }
 .bottomNav{
   overflow:hidden;
@@ -36,7 +61,25 @@ img,video,canvas,svg{
   min-width:0;
 }
 
-/* Inscripción: nunca debe desbordar ni cortar contenido en celulares */
+/* Rejillas adaptables según el ancho disponible */
+.eventMeta,
+.row{
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));
+}
+.quickGrid{
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));
+}
+.mediaGrid{
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));
+}
+.mediaGrid img,.mediaGrid video{
+  height:clamp(160px,24vw,190px);
+}
+
+/* Formularios e inscripción */
+#app,
+#app > *,
+.form,
 #regForm,
 #regForm .row,
 #regForm .field,
@@ -56,11 +99,47 @@ img,video,canvas,svg{
 #regForm .muted,
 #regForm .upload,
 .warning{
-  overflow-wrap:anywhere;
   word-break:normal;
 }
+.field input,
+.field select,
+.field textarea{
+  max-width:100%;
+}
 
-/* En teléfono la inscripción siempre va a una sola columna. */
+/* Celulares chicos */
+@media(max-width:419px){
+  .topbar{
+    height:auto;
+    min-height:72px;
+    padding-block:10px;
+  }
+  .homeWelcome{
+    flex-direction:column;
+  }
+  .homeMark{
+    width:50px;
+    height:50px;
+    flex-basis:50px;
+  }
+  .winnerBanner{
+    grid-template-columns:1fr;
+    justify-items:start;
+  }
+  .sectionHeader,.sectionTitle{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .field input,
+  .field select,
+  .field textarea,
+  .btn,
+  .cta{
+    font-size:16px;
+  }
+}
+
+/* Teléfonos: inscripción siempre en una columna */
 @media(max-width:760px){
   #regForm .row{
     grid-template-columns:minmax(0,1fr)!important;
@@ -71,5 +150,23 @@ img,video,canvas,svg{
   .warning{
     width:100%;
     max-width:100%;
+  }
+}
+
+/* Tablets */
+@media(min-width:761px) and (max-width:1100px){
+  main{
+    padding:20px 18px 30px;
+  }
+  .quickGrid{
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  }
+  .mediaGrid{
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  }
+  #regForm,
+  .form.card,
+  .card.form{
+    padding:18px;
   }
 }
