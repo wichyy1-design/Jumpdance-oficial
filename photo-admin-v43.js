@@ -26,7 +26,7 @@
     for(const x of root||[]){
       if(photoIsReal(x)){
         const o=orderMap.get(x.name);
-        out.push({path:x.name,name:x.name,year:o?.year||DEFAULT_YEAR,position:Number.isFinite(o?.position)?o.position:null,createdAt:x.created_at||''});
+        out.push({path:x.name,name:x.name,year:DEFAULT_YEAR,position:Number.isFinite(o?.position)?o.position:null,createdAt:x.created_at||''});
       }
     }
 
@@ -196,7 +196,8 @@
     if(error){console.error(error);button.disabled=false;button.textContent='CAMBIAR AÑO';return toast('No se pudo cambiar el año de la foto')}
 
     const {data:targetOrder}=await sb.from('photo_order').select('position').eq('year',targetYear).order('position',{ascending:false}).limit(1);
-    const nextPosition=(Number(targetOrder?.[0]?.position)||-1)+1;
+    const lastPosition=Number(targetOrder?.[0]?.position);
+    const nextPosition=(Number.isFinite(lastPosition)?lastPosition:-1)+1;
     await sb.from('photo_order').delete().eq('path',oldPath);
     const {error:orderError}=await sb.from('photo_order').upsert({path:newPath,year:targetYear,position:Math.max(0,nextPosition),updated_at:new Date().toISOString()},{onConflict:'path'});
     if(orderError)console.warn(orderError);
