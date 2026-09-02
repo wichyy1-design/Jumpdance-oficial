@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v35-logo-only-intro';
+const CACHE_NAME='jumpdance-v36-registration-submit-guard';
 const APP_SHELL=[
   '/',
   '/index.html',
@@ -20,6 +20,7 @@ const APP_SHELL=[
   '/results-v28.js',
   '/results-v28-years-fix.js',
   '/results-v28-delete-year.js',
+  '/registration-submit-guard-v36.js',
   '/config.js',
   '/manifest.json',
   '/icons/icon-jumpdance.svg',
