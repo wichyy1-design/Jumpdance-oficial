@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v37-fast-responsive';
+const CACHE_NAME='jumpdance-v38-gallery-fix';
 const APP_SHELL=[
   '/',
   '/index.html',
