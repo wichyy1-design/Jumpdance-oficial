@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v39-fullscreen-gallery';
+const CACHE_NAME='jumpdance-v40-long-messages';
 const APP_SHELL=[
   '/',
   '/index.html',
