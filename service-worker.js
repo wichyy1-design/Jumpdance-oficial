@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v38-gallery-fix';
+const CACHE_NAME='jumpdance-v39-fullscreen-gallery';
 const APP_SHELL=[
   '/',
   '/index.html',
