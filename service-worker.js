@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v44-photo-batch-upload';
+const CACHE_NAME='jumpdance-v45-gallery-no-native-fullscreen';
 const APP_SHELL=[
   '/',
   '/index.html',
@@ -15,6 +15,7 @@ const APP_SHELL=[
   '/results-v28.css?v=28',
   '/app.js',
   '/gallery-v42.js?v=42',
+  '/gallery-fullscreen-fix-v45.js?v=45',
   '/navigation-v25.js?v=42',
   '/admin-v26.js',
   '/username-auth-v26.js',
@@ -30,7 +31,7 @@ const APP_SHELL=[
   '/photo-admin-v43.js?v=43',
   '/photo-batch-upload-v44.js?v=44',
   '/config.js',
-  '/manifest.json?v=44',
+  '/manifest.json?v=45',
   '/icons/icon-jumpdance.svg',
   '/icons/icon-jumpdance-maskable.svg',
   '/icons/icon-192.png',
