@@ -1,5 +1,5 @@
 (() => {
-  const VALID_ROUTES=new Set(['home','register','photos','videos','news','results','sponsors','participants','messages','program','admin']);
+  const VALID_ROUTES=new Set(['home','register','photos','videos','ads','news','results','sponsors','participants','messages','program','admin']);
   const isStandalone=window.matchMedia?.('(display-mode: standalone)')?.matches||window.navigator.standalone===true;
   const currentRoute=()=>{
     const r=location.hash.slice(1)||'home';
