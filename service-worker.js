@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v43-photo-organizer';
+const CACHE_NAME='jumpdance-v43-photo-organizer-fixed';
 const APP_SHELL=[
   '/',
   '/index.html',
