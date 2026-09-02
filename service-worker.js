@@ -1,10 +1,11 @@
-const CACHE_NAME='jumpdance-v42-complete';
+const CACHE_NAME='jumpdance-v43-photo-organizer';
 const APP_SHELL=[
   '/',
   '/index.html',
   '/styles.css',
   '/gallery-v25.css?v=42',
   '/enhancements-v42.css?v=42',
+  '/photo-admin-v43.css?v=43',
   '/mobile-fit-v25.css?v=25.3',
   '/admin-v26.css',
   '/splash-logo-v35.css?v=35',
@@ -24,8 +25,10 @@ const APP_SHELL=[
   '/registration-submit-guard-v36.js?v=36',
   '/coreo-number-v37.js?v=37',
   '/enhancements-v42.js?v=42',
+  '/photo-order-public-v43.js?v=43',
+  '/photo-admin-v43.js?v=43',
   '/config.js',
-  '/manifest.json?v=42',
+  '/manifest.json?v=43',
   '/icons/icon-jumpdance.svg',
   '/icons/icon-jumpdance-maskable.svg',
   '/icons/icon-192.png',
