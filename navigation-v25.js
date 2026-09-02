@@ -6,6 +6,15 @@
     return VALID_ROUTES.has(r)?r:'home';
   };
 
+  const scrollRouteTop=()=>{
+    try{
+      window.scrollTo({top:0,left:0,behavior:'auto'});
+      if(document.scrollingElement)document.scrollingElement.scrollTop=0;
+    }catch{
+      window.scrollTo(0,0);
+    }
+  };
+
   const initial=currentRoute();
   if(isStandalone){
     history.replaceState({jd:true,guard:true,route:'home'},'', '#home');
@@ -14,7 +23,7 @@
     history.replaceState({jd:true,route:initial},'',`#${initial}`);
   }
 
-  window.route=function(r){
+  window.route=async function(r){
     const next=VALID_ROUTES.has(r)?r:'home';
 
     if(history.state?.overlay==='drawer'){
@@ -22,12 +31,17 @@
     }
 
     if(currentRoute()===next){
-      if(typeof render==='function')render();
+      if(typeof render==='function')await render();
+      scrollRouteTop();
+      requestAnimationFrame(scrollRouteTop);
       return;
     }
 
     history.pushState({jd:true,route:next},'',`#${next}`);
-    if(typeof render==='function')render();
+    scrollRouteTop();
+    if(typeof render==='function')await render();
+    scrollRouteTop();
+    requestAnimationFrame(scrollRouteTop);
   };
 
   const originalCloseDrawer=window.closeDrawer;
@@ -81,6 +95,7 @@
     if(isStandalone&&event.state?.guard){
       history.pushState({jd:true,route:'home'},'', '#home');
       if(typeof render==='function')render();
+      scrollRouteTop();
     }
   });
 })();
