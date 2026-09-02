@@ -1,11 +1,35 @@
-JUMPDANCE OFICIAL - VERSION 27.5 APERTURA E ICONO
-Ícono: Jumpdance usa el nuevo diseño con la muñeca y la marca JUMPDANCE, sin año en el nombre del ícono para que no quede desactualizado.
-Pantalla de apertura: al abrir Jumpdance como app instalada se muestra primero un fondo oscuro; entra la muñeca, hace un saludo con el brazo levantado, aparece un destello y luego se revela JUMPDANCE debajo de ella.
-Duración: aproximadamente 3,25 segundos más el fundido final, con ritmo más cinematográfico.
-La presentación no vuelve a mostrar el ícono ampliado dentro de la app y no se repite al navegar entre secciones.
-Panel administrador: organizado por módulos, mostrando una sección por vez.
-Usuarios: acceso con Usuario + Contraseña, sin pedir correo; el administrador principal puede crear usuarios, activarlos/desactivarlos, cambiar contraseña y habilitar módulos individualmente.
-Permisos: Portada, Inscripciones/Músicas, Fotos/Videos, Sponsors, Resultados, Novedades, Publicaciones y Mensajes.
-Permisos independientes: cada usuario puede entrar solamente a los módulos habilitados.
-Notificaciones: soporte push para avisar cuando una nueva inscripción termina de cargar su música.
-Seguridad: permisos aplicados también en Supabase/RLS y Storage.
+JUMPDANCE OFICIAL - VERSION 42
+
+Galería:
+- Fotos separadas por año del evento. Las fotos históricas que estaban en la raíz se consideran Jumpdance 2026.
+- Carga visual con skeleton animado.
+- Visor a pantalla completa con deslizamiento, zoom con dos dedos y doble toque.
+- Aviso al descargar una foto.
+- Se ignoran carpetas y archivos internos que no corresponden a la galería.
+
+Inscripciones:
+- Confirmación completa después de enviar: inscripción recibida, Coreo N.º, participante/grupo, academia, categoría/disciplina y archivo de música.
+- Confirmación explícita de música recibida.
+- Número de inscripción guardado en el dispositivo para facilitar consultas posteriores.
+
+Mi cuenta del participante:
+- Consulta segura con número de inscripción + WhatsApp o email usado al registrarse.
+- Muestra inscripción recibida, música recibida, revisión y estado del orden de presentación.
+- El administrador puede marcar una inscripción como “Todo correcto”.
+
+Programa del evento:
+- Nueva sección pública “Programa del evento”.
+- Orden por Coreo N.º con participante/grupo, academia, categoría y disciplina.
+- El administrador decide qué coreografías publica o retira del programa.
+
+Resultados:
+- Se conserva el diseño visual con podios y medallas.
+- Nueva opción para compartir los resultados como imagen.
+
+Panel administrador:
+- Resumen con inscripciones, músicas recibidas, músicas pendientes, fotos y mensajes nuevos.
+- Nuevo módulo para gestionar el programa.
+- Las nuevas fotos se guardan por año del evento.
+
+Actualización:
+- Service Worker y caché actualizados a v42 para distribuir los cambios a las instalaciones existentes al volver a abrir la app con conexión.
