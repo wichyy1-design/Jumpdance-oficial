@@ -1,4 +1,4 @@
-const CACHE_NAME='jumpdance-v40-long-messages';
+const CACHE_NAME='jumpdance-v41-offline-startup';
 const APP_SHELL=[
   '/',
   '/index.html',
@@ -32,14 +32,27 @@ const APP_SHELL=[
   '/jumpdance-home-reference.png'
 ];
 
+const OFFLINE_FALLBACK=`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080711"><title>Jumpdance 2026</title><style>html,body{margin:0;min-height:100%;background:#080711;color:#fff;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}body{min-height:100vh;display:grid;place-items:center;padding:24px;box-sizing:border-box}.box{max-width:420px;text-align:center}.logo{font-size:30px;font-weight:900;letter-spacing:2px}.logo span{color:#f05aa6}p{color:#c7bfd2;line-height:1.5}.dot{display:inline-block;animation:pulse 1.2s infinite}@keyframes pulse{50%{opacity:.25}}button{margin-top:12px;border:0;border-radius:14px;padding:13px 18px;font-weight:800;background:#f05aa6;color:#fff}</style></head><body><div class="box"><div class="logo">JUMP<span>DANCE</span></div><h2>Reconectando<span class="dot">…</span></h2><p>No pudimos cargar los datos en este momento. La app volverá a intentar automáticamente cuando regrese la conexión.</p><button onclick="location.reload()">VOLVER A INTENTAR</button></div><script>addEventListener('online',()=>location.reload());setInterval(()=>{if(navigator.onLine)location.reload()},5000)</script></body></html>`;
+
 self.addEventListener('install',event=>{
-  event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_SHELL)));
+  event.waitUntil((async()=>{
+    const cache=await caches.open(CACHE_NAME);
+    await Promise.allSettled(APP_SHELL.map(async path=>{
+      try{
+        const res=await fetch(path,{cache:'reload'});
+        if(res.ok)await cache.put(path,res.clone());
+      }catch{}
+    }));
+  })());
   self.skipWaiting();
 });
 
 self.addEventListener('activate',event=>{
-  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))));
-  self.clients.claim();
+  event.waitUntil((async()=>{
+    const keys=await caches.keys();
+    await Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)));
+    await self.clients.claim();
+  })());
 });
 
 self.addEventListener('push',event=>{
@@ -70,6 +83,13 @@ self.addEventListener('notificationclick',event=>{
   })());
 });
 
+async function fetchWithTimeout(req,ms=6500){
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),ms);
+  try{return await fetch(req,{cache:'no-store',signal:controller.signal})}
+  finally{clearTimeout(timer)}
+}
+
 self.addEventListener('fetch',event=>{
   const req=event.request;
   if(req.method!=='GET')return;
@@ -79,23 +99,45 @@ self.addEventListener('fetch',event=>{
   if(url.origin!==self.location.origin)return;
 
   if(req.mode==='navigate'){
-    const network=caches.open(CACHE_NAME).then(cache=>
-      fetch(req,{cache:'no-store'}).then(res=>{
-        if(res.ok)cache.put('/index.html',res.clone());
-        return res;
-      }).catch(()=>null)
-    );
-    event.waitUntil(network);
-    event.respondWith(caches.match('/index.html').then(cached=>cached||network).then(res=>res||Response.error()));
+    event.respondWith((async()=>{
+      const cache=await caches.open(CACHE_NAME);
+      try{
+        const res=await fetchWithTimeout(req);
+        if(res&&res.ok){
+          event.waitUntil(cache.put('/index.html',res.clone()));
+          return res;
+        }
+      }catch{}
+
+      const cached=await cache.match('/index.html')||await caches.match('/index.html');
+      if(cached)return cached;
+
+      return new Response(OFFLINE_FALLBACK,{
+        status:200,
+        headers:{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store'}
+      });
+    })());
     return;
   }
 
-  const network=caches.open(CACHE_NAME).then(cache=>
-    fetch(req).then(res=>{
-      if(res.ok)cache.put(req,res.clone());
-      return res;
-    }).catch(()=>null)
-  );
-  event.waitUntil(network);
-  event.respondWith(caches.match(req).then(cached=>cached||network).then(res=>res||Response.error()));
+  event.respondWith((async()=>{
+    const cached=await caches.match(req);
+    if(cached){
+      event.waitUntil((async()=>{
+        try{
+          const fresh=await fetch(req);
+          if(fresh.ok)(await caches.open(CACHE_NAME)).put(req,fresh.clone());
+        }catch{}
+      })());
+      return cached;
+    }
+
+    try{
+      const fresh=await fetch(req);
+      if(fresh.ok)event.waitUntil((async()=>{(await caches.open(CACHE_NAME)).put(req,fresh.clone())})());
+      return fresh;
+    }catch{
+      return new Response('',{status:504,statusText:'Offline'});
+    }
+  })());
 });
