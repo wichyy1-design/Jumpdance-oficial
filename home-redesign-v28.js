@@ -1,11 +1,33 @@
 (()=>{
   let countdownTimer=null;
   let decorating=false;
+  let publicityLoader=null;
 
   const MONTHS={
     ENERO:0,FEBRERO:1,MARZO:2,ABRIL:3,MAYO:4,JUNIO:5,
     JULIO:6,AGOSTO:7,SEPTIEMBRE:8,SETIEMBRE:8,OCTUBRE:9,NOVIEMBRE:10,DICIEMBRE:11
   };
+
+  function ensurePublicityFeature(){
+    if(window.jdUpdateNewsBell)return Promise.resolve();
+    if(publicityLoader)return publicityLoader;
+    publicityLoader=new Promise((resolve,reject)=>{
+      let script=document.querySelector('script[src*="publicity-news-v49.js"]');
+      if(script){
+        if(window.jdUpdateNewsBell)return resolve();
+        script.addEventListener('load',()=>resolve(),{once:true});
+        script.addEventListener('error',reject,{once:true});
+        return;
+      }
+      script=document.createElement('script');
+      script.src='publicity-news-v49.js?v=50';
+      script.async=true;
+      script.onload=()=>resolve();
+      script.onerror=reject;
+      document.head.appendChild(script);
+    });
+    return publicityLoader;
+  }
 
   function parseEventDate(label){
     const text=String(label||'').trim().toUpperCase();
@@ -54,6 +76,24 @@
     countdownTimer=setInterval(render,1000);
   }
 
+  async function openPublicity(){
+    try{await ensurePublicityFeature()}catch(e){console.warn('No se pudo cargar Publicidad',e)}
+    location.hash='ads';
+    if(typeof window.render==='function')await window.render();
+    window.scrollTo({top:0,left:0,behavior:'auto'});
+  }
+
+  function decoratePublicityCard(app){
+    const cards=[...app.querySelectorAll('.quickCard')];
+    const card=cards.find(c=>/NOVEDADES|PUBLICIDAD/i.test(c.querySelector('h3')?.textContent||''));
+    if(!card)return;
+    card.removeAttribute('onclick');
+    card.onclick=openPublicity;
+    const icon=card.querySelector('.ico');if(icon)icon.textContent='📢';
+    const title=card.querySelector('h3');if(title)title.textContent='PUBLICIDAD';
+    const desc=card.querySelector('p');if(desc)desc.textContent='Anuncios y publicidad de Jumpdance';
+  }
+
   function decorateHome(){
     if(decorating)return;
     const app=document.getElementById('app');
@@ -74,6 +114,7 @@
     decorating=true;
     try{
       app.classList.add('homeV28');
+      decoratePublicityCard(app);
 
       const cta=hero.querySelector('.cta');
       if(cta)cta.textContent='Inscribirme';
@@ -118,7 +159,10 @@
 
   window.addEventListener('hashchange',()=>setTimeout(schedule,80));
   window.addEventListener('pageshow',schedule);
-  window.addEventListener('load',schedule);
+  window.addEventListener('load',()=>{
+    schedule();
+    setTimeout(()=>{if(!window.jdUpdateNewsBell)ensurePublicityFeature().catch(()=>{})},500);
+  });
 
   const app=document.getElementById('app');
   if(app){
