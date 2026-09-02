@@ -1,9 +1,9 @@
-const CACHE_NAME='jumpdance-v41-offline-startup';
+const CACHE_NAME='jumpdance-v42-gallery-fix';
 const APP_SHELL=[
   '/',
   '/index.html',
   '/styles.css',
-  '/gallery-v25.css',
+  '/gallery-v25.css?v=42',
   '/mobile-fit-v25.css?v=25.3',
   '/admin-v26.css',
   '/splash-logo-v35.css?v=35',
@@ -11,7 +11,7 @@ const APP_SHELL=[
   '/home-redesign-v28.css?v=28',
   '/results-v28.css?v=28',
   '/app.js',
-  '/gallery-v25.js',
+  '/gallery-v25.js?v=42',
   '/navigation-v25.js',
   '/admin-v26.js',
   '/username-auth-v26.js',
@@ -21,6 +21,7 @@ const APP_SHELL=[
   '/results-v28-years-fix.js?v=28.1',
   '/results-v28-delete-year.js?v=28.2',
   '/registration-submit-guard-v36.js?v=36',
+  '/coreo-number-v37.js?v=37',
   '/config.js',
   '/manifest.json',
   '/icons/icon-jumpdance.svg',
