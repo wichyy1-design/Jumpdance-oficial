@@ -1,4 +1,4 @@
-JUMPDANCE OFICIAL - VERSION 43
+JUMPDANCE OFICIAL - VERSION 44
 
 Galería:
 - Fotos separadas por año del evento. Las fotos históricas que estaban en la raíz se consideran Jumpdance 2026.
@@ -14,6 +14,13 @@ Organización de fotos desde administración:
 - Como alternativa, hay botones Subir/Bajar para cambiar el orden.
 - El orden queda guardado y se refleja en la galería pública.
 - Al mover una foto de año se conserva el archivo en el bucket Photos y cambia solamente su ubicación dentro de la carpeta del año correspondiente.
+
+Carga múltiple de fotos:
+- El administrador puede seleccionar una o varias fotos de una sola vez desde el teléfono.
+- Todas las fotos seleccionadas se publican juntas en el año elegido.
+- La pantalla muestra cuántas fotos fueron seleccionadas y el progreso de publicación.
+- Al finalizar informa cuántas se publicaron correctamente y si alguna falló.
+- Las fotos nuevas quedan registradas en el orden del álbum para poder acomodarlas luego desde el organizador.
 
 Inscripciones:
 - Confirmación completa después de enviar: inscripción recibida, Coreo N.º, participante/grupo, academia, categoría/disciplina y archivo de música.
@@ -40,4 +47,4 @@ Panel administrador:
 - Las nuevas fotos se guardan por año del evento.
 
 Actualización:
-- Service Worker y caché actualizados para distribuir la versión 43 a las instalaciones existentes al volver a abrir la app con conexión.
+- Service Worker y caché actualizados para distribuir la versión 44 a las instalaciones existentes al volver a abrir la app con conexión.
