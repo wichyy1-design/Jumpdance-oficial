@@ -1,4 +1,4 @@
-/* Jumpdance v25.1 - ajuste móvil: evita zoom/desplazamiento lateral de toda la app */
+/* Jumpdance v25.2 - ajuste móvil general + inscripción responsive */
 html,body{
   width:100%;
   max-width:100%;
@@ -34,4 +34,42 @@ img,video,canvas,svg{
 }
 .bottomNav button{
   min-width:0;
+}
+
+/* Inscripción: nunca debe desbordar ni cortar contenido en celulares */
+#regForm,
+#regForm .row,
+#regForm .field,
+#regForm .upload,
+#regForm input,
+#regForm select,
+#regForm textarea,
+#regForm button{
+  width:100%;
+  max-width:100%;
+  min-width:0;
+}
+#regForm{
+  overflow:hidden;
+}
+#regForm .field label,
+#regForm .muted,
+#regForm .upload,
+.warning{
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+
+/* En teléfono la inscripción siempre va a una sola columna. */
+@media(max-width:760px){
+  #regForm .row{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  #regForm{
+    padding:14px;
+  }
+  .warning{
+    width:100%;
+    max-width:100%;
+  }
 }
