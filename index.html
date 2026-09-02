@@ -25,12 +25,13 @@ html.jdBootSplash,html.jdBootSplash body{background:#000!important;overflow:hidd
 html.jdBootSplash body>*:not(#jdSplash){visibility:hidden!important}
 html.jdBootSplash #jdSplash{display:block!important;position:fixed!important;inset:0!important;z-index:99999!important;background:#000!important;color:#fff!important}
 </style>
-<link rel="manifest" href="/manifest.json?v=27.5">
+<link rel="manifest" href="/manifest.json?v=42">
 <link rel="icon" type="image/svg+xml" href="/icons/icon-jumpdance.svg?v=27.5">
 <link rel="apple-touch-icon" href="/icons/icon-192.png?v=27.5">
 <title>Jumpdance 2026</title>
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="gallery-v25.css?v=42">
+<link rel="stylesheet" href="enhancements-v42.css?v=42">
 <link rel="stylesheet" href="mobile-fit-v25.css?v=25.3">
 <link rel="stylesheet" href="admin-v26.css">
 <link rel="stylesheet" href="splash-logo-v35.css?v=35">
@@ -68,13 +69,14 @@ html.jdBootSplash #jdSplash{display:block!important;position:fixed!important;ins
     <h2>JUMPDANCE <span>2026</span></h2>
     <button onclick="route('home');closeDrawer()">🏠 Inicio</button>
     <button onclick="route('register');closeDrawer()">📝 Inscripciones</button>
+    <button onclick="route('program');closeDrawer()">📋 Programa del evento</button>
     <button onclick="route('photos');closeDrawer()">📸 Fotos</button>
     <button onclick="route('videos');closeDrawer()">🎬 Videos</button>
     <button onclick="route('news');closeDrawer()">📢 Novedades</button>
     <button onclick="route('results');closeDrawer()">🏆 Resultados</button>
     <button onclick="route('sponsors');closeDrawer()">⭐ Sponsors</button>
     <button onclick="route('messages');closeDrawer()">💬 Mensajes públicos</button>
-    <button onclick="route('admin');closeDrawer()">🔐 Administrador</button>
+    <button onclick="route('admin');closeDrawer()">🔐 Administrador / Mi cuenta</button>
   </div>
 </div>
 
@@ -87,11 +89,11 @@ window.JD_RESTORE_ADMIN_ROUTE=location.hash==='#admin';
 if(window.JD_RESTORE_ADMIN_ROUTE)history.replaceState(history.state,'','#home');
 </script>
 <script src="app.js"></script>
-<script src="gallery-v25.js?v=42"></script>
+<script src="gallery-v42.js?v=42"></script>
 <script>
 if(window.JD_RESTORE_ADMIN_ROUTE)history.replaceState(history.state,'','#admin');
 </script>
-<script src="navigation-v25.js"></script>
+<script src="navigation-v25.js?v=42"></script>
 <script src="admin-v26.js"></script>
 <script src="username-auth-v26.js"></script>
 <script src="admin-modules-v26.js"></script>
@@ -101,14 +103,15 @@ if(window.JD_RESTORE_ADMIN_ROUTE)history.replaceState(history.state,'','#admin')
 <script src="results-v28-delete-year.js?v=28.2"></script>
 <script src="coreo-number-v37.js?v=37"></script>
 <script src="registration-submit-guard-v36.js?v=36"></script>
+<script src="enhancements-v42.js?v=42"></script>
 <script>
-if(location.hash==='#results'||location.hash==='#admin')setTimeout(()=>window.render?.(),0);
+if(location.hash==='#results'||location.hash==='#admin'||location.hash==='#program')setTimeout(()=>window.render?.(),0);
 </script>
 
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js').catch(console.error);
+    navigator.serviceWorker.register('/service-worker.js?v=42').catch(console.error);
   });
 }
 </script>
