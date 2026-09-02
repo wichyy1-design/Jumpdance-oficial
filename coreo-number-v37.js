@@ -167,4 +167,6 @@
       return result;
     };
   }
+
+  if(location.hash==='#register')setTimeout(()=>window.render?.(),0);
 })();
