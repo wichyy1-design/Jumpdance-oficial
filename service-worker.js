@@ -1,26 +1,26 @@
-const CACHE_NAME='jumpdance-v36-registration-submit-guard';
+const CACHE_NAME='jumpdance-v37-fast-responsive';
 const APP_SHELL=[
   '/',
   '/index.html',
   '/styles.css',
   '/gallery-v25.css',
-  '/mobile-fit-v25.css',
+  '/mobile-fit-v25.css?v=25.3',
   '/admin-v26.css',
-  '/splash-logo-v35.css',
-  '/splash-logo-v35.js',
-  '/home-redesign-v28.css',
-  '/results-v28.css',
+  '/splash-logo-v35.css?v=35',
+  '/splash-logo-v35.js?v=35',
+  '/home-redesign-v28.css?v=28',
+  '/results-v28.css?v=28',
   '/app.js',
   '/gallery-v25.js',
   '/navigation-v25.js',
   '/admin-v26.js',
   '/username-auth-v26.js',
   '/admin-modules-v26.js',
-  '/home-redesign-v28.js',
-  '/results-v28.js',
-  '/results-v28-years-fix.js',
-  '/results-v28-delete-year.js',
-  '/registration-submit-guard-v36.js',
+  '/home-redesign-v28.js?v=28',
+  '/results-v28.js?v=28',
+  '/results-v28-years-fix.js?v=28.1',
+  '/results-v28-delete-year.js?v=28.2',
+  '/registration-submit-guard-v36.js?v=36',
   '/config.js',
   '/manifest.json',
   '/icons/icon-jumpdance.svg',
@@ -32,17 +32,17 @@ const APP_SHELL=[
   '/jumpdance-home-reference.png'
 ];
 
-self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_SHELL)));
+self.addEventListener('install',event=>{
+  event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_SHELL)));
   self.skipWaiting();
 });
 
-self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))));
+self.addEventListener('activate',event=>{
+  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))));
   self.clients.claim();
 });
 
-self.addEventListener('push', event => {
+self.addEventListener('push',event=>{
   let data={title:'Jumpdance',body:'Tenés una nueva notificación.',url:'/#admin',tag:'jumpdance'};
   try{data={...data,...event.data.json()}}catch{}
   event.waitUntil(self.registration.showNotification(data.title,{
@@ -55,7 +55,7 @@ self.addEventListener('push', event => {
   }));
 });
 
-self.addEventListener('notificationclick', event => {
+self.addEventListener('notificationclick',event=>{
   event.notification.close();
   const target=event.notification.data?.url||'/#admin';
   event.waitUntil((async()=>{
@@ -70,26 +70,32 @@ self.addEventListener('notificationclick', event => {
   })());
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch',event=>{
   const req=event.request;
   if(req.method!=='GET')return;
+
   const url=new URL(req.url);
   if(url.hostname.includes('supabase.co'))return;
+  if(url.origin!==self.location.origin)return;
 
   if(req.mode==='navigate'){
-    event.respondWith(fetch(req,{cache:'no-store'}).then(res=>{
-      const copy=res.clone();
-      caches.open(CACHE_NAME).then(c=>c.put('/index.html',copy));
-      return res;
-    }).catch(()=>caches.match('/index.html')));
+    const network=caches.open(CACHE_NAME).then(cache=>
+      fetch(req,{cache:'no-store'}).then(res=>{
+        if(res.ok)cache.put('/index.html',res.clone());
+        return res;
+      }).catch(()=>null)
+    );
+    event.waitUntil(network);
+    event.respondWith(caches.match('/index.html').then(cached=>cached||network).then(res=>res||Response.error()));
     return;
   }
 
-  event.respondWith(fetch(req).then(res=>{
-    if(url.origin===self.location.origin&&res.ok){
-      const copy=res.clone();
-      caches.open(CACHE_NAME).then(c=>c.put(req,copy));
-    }
-    return res;
-  }).catch(()=>caches.match(req)));
+  const network=caches.open(CACHE_NAME).then(cache=>
+    fetch(req).then(res=>{
+      if(res.ok)cache.put(req,res.clone());
+      return res;
+    }).catch(()=>null)
+  );
+  event.waitUntil(network);
+  event.respondWith(caches.match(req).then(cached=>cached||network).then(res=>res||Response.error()));
 });
