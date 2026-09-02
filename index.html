@@ -25,7 +25,7 @@ html.jdBootSplash,html.jdBootSplash body{background:#000!important;overflow:hidd
 html.jdBootSplash body>*:not(#jdSplash){visibility:hidden!important}
 html.jdBootSplash #jdSplash{display:block!important;position:fixed!important;inset:0!important;z-index:99999!important;background:#000!important;color:#fff!important}
 </style>
-<link rel="manifest" href="/manifest.json?v=45">
+<link rel="manifest" href="/manifest.json?v=49">
 <link rel="icon" type="image/svg+xml" href="/icons/icon-jumpdance.svg?v=27.5">
 <link rel="apple-touch-icon" href="/icons/icon-192.png?v=27.5">
 <title>Jumpdance 2026</title>
@@ -52,7 +52,7 @@ html.jdBootSplash #jdSplash{display:block!important;position:fixed!important;ins
 <header class="topbar">
   <button id="menuBtn" class="iconBtn">☰</button>
   <div class="brandBlock"><div class="brand">JUMPDANCE <span>2026</span></div><small>Evento de exhibición</small></div>
-  <button class="iconBtn" onclick="route('news')">🔔</button>
+  <button id="newsBellBtn" class="iconBtn" onclick="route('news')" aria-label="Novedades">🔔</button>
 </header>
 
 <main id="app"></main>
@@ -74,7 +74,7 @@ html.jdBootSplash #jdSplash{display:block!important;position:fixed!important;ins
     <button onclick="route('program');closeDrawer()">📋 Programa del evento</button>
     <button onclick="route('photos');closeDrawer()">📸 Fotos</button>
     <button onclick="route('videos');closeDrawer()">🎬 Videos</button>
-    <button onclick="route('news');closeDrawer()">📢 Novedades</button>
+    <button onclick="route('ads');closeDrawer()">📢 Publicidad</button>
     <button onclick="route('results');closeDrawer()">🏆 Resultados</button>
     <button onclick="route('sponsors');closeDrawer()">⭐ Sponsors</button>
     <button onclick="route('messages');closeDrawer()">💬 Mensajes públicos</button>
@@ -96,7 +96,7 @@ if(window.JD_RESTORE_ADMIN_ROUTE)history.replaceState(history.state,'','#home');
 <script>
 if(window.JD_RESTORE_ADMIN_ROUTE)history.replaceState(history.state,'','#admin');
 </script>
-<script src="navigation-v25.js?v=42"></script>
+<script src="navigation-v25.js?v=49"></script>
 <script src="admin-v26.js"></script>
 <script src="username-auth-v26.js"></script>
 <script src="admin-modules-v26.js"></script>
@@ -112,14 +112,15 @@ if(window.JD_RESTORE_ADMIN_ROUTE)history.replaceState(history.state,'','#admin')
 <script src="photo-admin-v43.js?v=43"></script>
 <script src="photo-batch-upload-v44.js?v=44"></script>
 <script src="admin-media-tabs-v48.js?v=48"></script>
+<script src="publicity-news-v49.js?v=49"></script>
 <script>
-if(location.hash==='#results'||location.hash==='#admin'||location.hash==='#program')setTimeout(()=>window.render?.(),0);
+if(location.hash==='#results'||location.hash==='#admin'||location.hash==='#program'||location.hash==='#ads'||location.hash==='#news')setTimeout(()=>window.render?.(),0);
 </script>
 
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js?v=45').catch(console.error);
+    navigator.serviceWorker.register('/service-worker.js?v=49').catch(console.error);
   });
 }
 </script>
